@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manifesto de Cultura CrediSeara</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Scroll Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        credi: {
+                            green: '#047857', // Emerald 700
+                            dark: '#064e3b',  // Emerald 900
+                            light: '#d1fae5', // Emerald 100
+                            earth: '#92400e', // Amber 800 - representing soil/earth
+                            gold: '#b45309',  // Amber 700
+                            cream: '#fffbeb', // Amber 50
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for nuances */
+        body {
+            background-color: #ffffff; /* Explicit White */
+            overflow-x: hidden;
+        }
+        
+        .text-justified {
+            text-align: justify;
+        }
+
+        /* Subtle organic pattern for sections */
+        .bg-pattern {
+            background-image: radial-gradient(#047857 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            opacity: 0.05;
+        }
+
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            line-height: 1;
+            color: #d1fae5;
+            position: absolute;
+            z-index: -1;
+        }
+
+        /* Smooth reveal for cards */
+        .hover-card {
+            transition: all 0.3s ease;
+        }
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Section dividers */
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .separator:not(:empty)::before {
+            margin-right: .5em;
+        }
+        .separator:not(:empty)::after {
+            margin-left: .5em;
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-600">
+
+    <!-- Hero Section -->
+    <header class="relative pt-16 pb-12 md:pt-24 md:pb-20 px-6 text-center max-w-5xl mx-auto">
+        <div class="absolute top-0 left-0 w-full h-full bg-pattern pointer-events-none"></div>
+        
+        <div data-aos="fade-down" data-aos-duration="1000">
+            <span class="inline-block py-1 px-3 rounded-full bg-credi-light text-credi-dark text-xs font-semibold tracking-wider mb-4 uppercase">
+                Manifesto Institucional
+            </span>
+            <h1 class="font-serif text-4xl md:text-6xl font-bold text-credi-dark mb-4 leading-tight">
+                Nossas Raízes, <br><span class="text-credi-green italic">Nosso Futuro</span>
+            </h1>
+            <div class="w-24 h-1 bg-credi-gold mx-auto my-6"></div>
+        </div>
+
+        <div class="max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <p class="font-serif text-xl md:text-2xl text-slate-700 leading-relaxed italic">
+                "A cultura da CrediSeara não nasceu em uma sala de reuniões; ela nasceu no chão batido, nas comunidades rurais."
+            </p>
+            <p class="mt-6 text-lg text-slate-500 font-light leading-relaxed">
+                Nossos pilares e DNA são o reflexo dessa jornada de 30 anos de coragem, fé e trabalho. É a luta de homens e mulheres que acreditaram no <strong>"nós"</strong> quando o sistema dizia que só importava o <strong>"eu"</strong>.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 pb-20">
+        
+        <!-- SECTION 1: OS TRÊS PILARES -->
+        <section class="mb-24">
+            <div class="flex items-center mb-10" data-aos="fade-right">
+                <div class="bg-credi-green text-white font-bold w-12 h-12 flex items-center justify-center rounded-full text-xl shadow-lg z-10 shrink-0">1</div>
+                <div class="h-px bg-slate-200 flex-grow ml-4"></div>
+                <h2 class="ml-4 font-serif text-3xl text-slate-800 font-bold whitespace-nowrap">Os Três Pilares</h2>
+                <div class="h-px bg-slate-200 flex-grow ml-4"></div>
+            </div>
+
+            <p class="text-center text-slate-500 mb-12 max-w-2xl mx-auto italic">A base estratégica que sustenta nossa existência.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Pilar 1: Desempenho -->
+                <article class="hover-card bg-white border border-slate-100 rounded-2xl p-0 relative overflow-hidden group flex flex-col" data-aos="fade-up" data-aos-delay="0">
+                    <div class="p-8 pb-4">
+                        <div class="text-credi-green mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-2xl text-slate-800 font-bold mb-1">01. Desempenho</h3>
+                        <p class="text-xs font-bold text-credi-gold uppercase tracking-widest mb-4">Crédito para a Nossa Realidade</p>
+                    </div>
+
+                    <div class="px-8 pb-6 flex-grow">
+                        <div class="mb-6">
+                            <h4 class="flex items-center text-sm font-semibold text-slate-800 mb-2">
+                                <svg class="w-4 h-4 mr-2 text-credi-earth" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                Não é sobre números
+                            </h4>
+                            <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                                O desempenho na CrediSeara nunca foi apenas sobre números frios em um balancete; sempre foi sobre transformação social. O verdadeiro desempenho se manifestou quando financiamos a primeira vaca de leite, a casa própria pelo PNHR ou quando peitamos a burocracia para financiar agroindústrias familiares.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-credi-light/30 -mx-8 px-8 py-6 mt-auto border-t border-credi-light/50">
+                            <h4 class="flex items-center text-sm font-semibold text-credi-dark mb-2">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Anota essa!
+                            </h4>
+                            <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                                É a capacidade técnica de gerar sobras financeiras que garantam a perenidade do negócio, mas com a finalidade última de gerar ganhos sociais. É a eficiência que permitiu nos tornarmos um agente de desenvolvimento territorial independente.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Pilar 2: Cultura -->
+                <article class="hover-card bg-white border border-slate-100 rounded-2xl p-0 relative overflow-hidden group flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <div class="p-8 pb-4">
+                        <div class="text-credi-green mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-2xl text-slate-800 font-bold mb-1">02. Cultura</h3>
+                        <p class="text-xs font-bold text-credi-gold uppercase tracking-widest mb-4">A Cultura da Solidariedade</p>
+                    </div>
+
+                    <div class="px-8 pb-6 flex-grow">
+                        <div class="mb-6">
+                            <h4 class="flex items-center text-sm font-semibold text-slate-800 mb-2">
+                                <svg class="w-4 h-4 mr-2 text-credi-earth" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                Identidade que segue viva
+                            </h4>
+                            <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                                Nossa cultura vem da identidade do colono e do agricultor. A cooperação era a única saída frente ao êxodo rural. Viver o DNA significa honrar o espírito dos "mutirões" e a influência de líderes como Dom José Gomes: "a fé sem obras é morta".
+                            </p>
+                        </div>
+                        
+                        <div class="bg-credi-light/30 -mx-8 px-8 py-6 mt-auto border-t border-credi-light/50">
+                            <h4 class="flex items-center text-sm font-semibold text-credi-dark mb-2">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Ser humano é prioridade!
+                            </h4>
+                            <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                                Nossa cultura é a democracia prática. É o associado que entra na agência de botina suja de barro e é tratado como dono. É manter acesa a chama de que "o dinheiro é uma ferramenta, não o senhor", priorizando sempre o ser humano.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Pilar 3: Evolução -->
+                <article class="hover-card bg-white border border-slate-100 rounded-2xl p-0 relative overflow-hidden group flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                    <div class="p-8 pb-4">
+                        <div class="text-credi-green mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-2xl text-slate-800 font-bold mb-1">03. Evolução</h3>
+                        <p class="text-xs font-bold text-credi-gold uppercase tracking-widest mb-4">Seara de Futuro e Inovação</p>
+                    </div>
+
+                    <div class="px-8 pb-6 flex-grow">
+                        <div class="mb-6">
+                            <h4 class="flex items-center text-sm font-semibold text-slate-800 mb-2">
+                                <svg class="w-4 h-4 mr-2 text-credi-earth" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                Evoluir sempre
+                            </h4>
+                            <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                                A CrediSeara nasceu quebrando paradigmas (o "banquinho dos colonos" que deu certo). Passamos de fichas de papel para compensação própria; saímos de sistemas vinculados para a ousadia da independência para melhor atender o associado.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-credi-light/30 -mx-8 px-8 py-6 mt-auto border-t border-credi-light/50">
+                            <h4 class="flex items-center text-sm font-semibold text-credi-dark mb-2">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Nada de acomodação por aqui!
+                            </h4>
+                            <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                                Evoluir para nós significa coragem para mudar. Superamos limites criando programas e apostando em energias renováveis. É não se acomodar com o "sempre foi assim", buscando tecnologias sociais para que o associado prospere.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SECTION 2: DNA -->
+        <section>
+            <div class="flex items-center mb-10" data-aos="fade-right">
+                <div class="bg-credi-dark text-white font-bold w-12 h-12 flex items-center justify-center rounded-full text-xl shadow-lg z-10 shrink-0">2</div>
+                <div class="h-px bg-slate-200 flex-grow ml-4"></div>
+                <h2 class="ml-4 font-serif text-3xl text-slate-800 font-bold whitespace-nowrap">O DNA CrediSeara</h2>
+                <div class="h-px bg-slate-200 flex-grow ml-4"></div>
+            </div>
+            
+            <p class="text-center text-slate-500 mb-12 max-w-2xl mx-auto italic">Comportamentos desejáveis: Como agimos no dia a dia para honrar nossa história.</p>
+
+            <div class="space-y-8">
+                
+                <!-- DNA Item 1: Atendimento -->
+                <div class="bg-white border-l-4 border-credi-green rounded-r-xl shadow-sm overflow-hidden" data-aos="fade-up">
+                    <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-slate-100 pb-6 md:pb-0 md:pr-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-2 bg-green-50 rounded-lg text-credi-green">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <h3 class="font-serif text-2xl font-bold text-credi-dark">Atendimento</h3>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">A Origem</h4>
+                            <p class="text-sm text-slate-600 italic leading-relaxed">
+                                Guerino Deitos, primeiro secretário: "Atendam bem todos os associados, independentemente de quem quer que seja... Capricha, piazada". Diferente dos bancos da época que fechavam as portas para o pequeno, nós nascemos para abrir.
+                            </p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h4 class="text-xs font-bold text-credi-gold uppercase tracking-wider mb-3">Somos presença e não produto</h4>
+                            <p class="text-slate-700 leading-relaxed text-justify">
+                                O atendimento da CrediSeara é pautado na proximidade. "Honrar a palavra" vem da tradição do fio do bigode, onde o compromisso verbal vale ouro. <strong>"Ouvir em estado de presença"</strong> é o que nossos fundadores faziam nas reuniões debaixo de chuva ou sol: entender a dor do outro para oferecer uma solução real, não apenas um produto bancário.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DNA Item 2: Força de Vontade -->
+                <div class="bg-white border-l-4 border-credi-earth rounded-r-xl shadow-sm overflow-hidden" data-aos="fade-up">
+                    <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-slate-100 pb-6 md:pb-0 md:pr-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-2 bg-orange-50 rounded-lg text-credi-earth">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                                </div>
+                                <h3 class="font-serif text-2xl font-bold text-credi-dark">Força de Vontade</h3>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">A Origem</h4>
+                            <p class="text-sm text-slate-600 italic leading-relaxed">
+                                Vem da garra dos fundadores que viajavam a pé ou de carona, largando o arado para resolver problemas da cooperativa. Do desafio de Dom José: "Se vocês não fizerem, ninguém vai fazer por vocês".
+                            </p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h4 class="text-xs font-bold text-credi-gold uppercase tracking-wider mb-3">A coragem de enfrentar</h4>
+                            <p class="text-slate-700 leading-relaxed text-justify">
+                                É a resiliência de quem começou com o capital social equivalente a sacas de milho. É a coragem de enfrentar crises econômicas, secas e mudanças de moeda (Cruzeiro Real para Real) sem desistir. Brigar pelo desenvolvimento regional não é slogan, é nossa história de luta contra a "modernização excludente".
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DNA Item 3: Inteligência Emocional -->
+                <div class="bg-white border-l-4 border-blue-500 rounded-r-xl shadow-sm overflow-hidden" data-aos="fade-up">
+                    <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-slate-100 pb-6 md:pb-0 md:pr-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                                </div>
+                                <h3 class="font-serif text-2xl font-bold text-credi-dark">Inteligência Emocional</h3>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">A Origem</h4>
+                            <p class="text-sm text-slate-600 italic leading-relaxed">
+                                Está na sabedoria de mediar conflitos entre gerações e na transição de sistemas. A cooperativa precisou de maturidade para sair de grandes sistemas centrais e caminhar sozinha, mantendo a confiança inabalada.
+                            </p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-3">Estamos aqui pra cuidar</h4>
+                            <p class="text-slate-700 leading-relaxed text-justify">
+                                É a capacidade de gerar confiança (fides), nossa moeda mais valiosa. Inteligência emocional é ter a empatia de entender as angústias do associado (seja uma colheita perdida ou um sonho) e ser seu porto seguro. Saber que somos "uma grande família" e cuidar das relações para que sejam duradouras.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DNA Item 4: Desempenho (Individual/Equipe) -->
+                <div class="bg-white border-l-4 border-credi-gold rounded-r-xl shadow-sm overflow-hidden" data-aos="fade-up">
+                    <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-slate-100 pb-6 md:pb-0 md:pr-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-2 bg-amber-50 rounded-lg text-credi-gold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <h3 class="font-serif text-2xl font-bold text-credi-dark">Desempenho</h3>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">A Origem</h4>
+                            <p class="text-sm text-slate-600 italic leading-relaxed">
+                                O salto de qualidade técnica. A profissionalização e a contratação de agrônomos, técnicos e especialistas que transformaram a CrediSeara em referência de crédito orientado.
+                            </p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h4 class="text-xs font-bold text-credi-gold uppercase tracking-wider mb-3">Excelência a serviço do propósito</h4>
+                            <p class="text-slate-700 leading-relaxed text-justify">
+                                Operar em excelência é uma responsabilidade com o dinheiro do dono (o associado). A CrediSeara só cresceu porque aliou paixão cooperativista com rigor técnico. Engajamento é entender que cada processo bem feito resulta em uma propriedade rural mais forte. É a excelência a serviço do propósito.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DNA Item 5: Ambiente -->
+                <div class="bg-white border-l-4 border-purple-500 rounded-r-xl shadow-sm overflow-hidden" data-aos="fade-up">
+                    <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-slate-100 pb-6 md:pb-0 md:pr-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-2 bg-purple-50 rounded-lg text-purple-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                                </div>
+                                <h3 class="font-serif text-2xl font-bold text-credi-dark">Ambiente</h3>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">A Origem</h4>
+                            <p class="text-sm text-slate-600 italic leading-relaxed">
+                                O sentimento de pertencimento. O relato de associados que dizem "eu me sinto em casa". As festas com milhares de pessoas, onde a alegria e a celebração da colheita se misturam.
+                            </p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-wider mb-3">A segurança de estar em casa</h4>
+                            <p class="text-slate-700 leading-relaxed text-justify">
+                                Nosso ambiente deve refletir a casa do associado. Um local onde não há barreiras entre o gerente e o produtor. Um ambiente onde a colaboração supera a competição, tal qual nos antigos mutirões. Um espaço de saúde nas relações, onde a equipe se sente segura para inovar e o associado seguro para sonhar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer / Closing -->
+        <footer class="mt-24 text-center border-t border-slate-100 pt-12" data-aos="fade-in">
+            <div class="inline-block p-4 rounded-full bg-slate-50 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-credi-green opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+            </div>
+            <h4 class="font-serif text-3xl text-credi-dark italic mb-4">CrediSeara</h4>
+            <p class="text-slate-500 max-w-lg mx-auto leading-relaxed">
+                Este manifesto é mais do que palavras; é o mapa que guia cada decisão, cada atendimento e cada sonho que ajudamos a realizar.
+            </p>
+            <p class="text-xs text-slate-400 mt-8 uppercase tracking-widest">Intranet Institucional &copy; 2025</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Initialize Animations
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+    </script>
+</body>
+</html>

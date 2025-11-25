@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrediSeara - Nossa História, Nossa Vida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crediGreen: '#008f39', 
+                        crediDarkGreen: '#005c25',
+                        crediOrange: '#ff8c00', 
+                        textMain: '#1f2937',
+                        textLight: '#4b5563',
+                        bgSection: '#f9fafb',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* Timeline connector line */
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e5e7eb;
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .timeline-line { left: 50%; transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="bg-white text-textMain font-sans antialiased selection:bg-crediGreen selection:text-white">
+
+    <!-- HERO SECTION -->
+    <header class="w-full pt-16 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50 border-b border-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="mb-8 flex justify-center fade-in-up">
+                <svg width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 10L20 60H80L50 10Z" fill="#008f39" fill-opacity="0.9"/>
+                    <path d="M35 60L20 85H80L65 60H35Z" fill="#005c25" fill-opacity="1"/>
+                    <path d="M15 85H85" stroke="#ff8c00" stroke-width="6" stroke-linecap="round"/>
+                </svg>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 mb-6 fade-in-up delay-100">
+                30 Anos de Cooperação
+            </h1>
+            <p class="text-xl sm:text-2xl text-textLight mb-8 fade-in-up delay-200 font-serif italic max-w-2xl mx-auto">
+                "Toda semente é um anseio de frutificar. Põe a semente na terra, não será em vão."
+            </p>
+            <div class="fade-in-up delay-300">
+                <span class="inline-block px-4 py-1 rounded-full bg-green-100 text-crediGreen text-sm font-bold tracking-wide uppercase">Desde 1994</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- PILARES ESTRATÉGICOS -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white -mt-12 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-crediGreen hover:-translate-y-1 transition-transform duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i data-lucide="compass" class="text-crediGreen w-6 h-6"></i>
+                        <h3 class="text-xl font-bold text-gray-900">Nossa Missão</h3>
+                    </div>
+                    <p class="text-textLight text-sm leading-relaxed">
+                        Promover e consolidar a cultura da solidariedade entre os associados e suas organizações através da educação cooperativista e dos produtos e serviços ofertados, visando o desenvolvimento territorial sustentável.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-crediOrange hover:-translate-y-1 transition-transform duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i data-lucide="telescope" class="text-crediOrange w-6 h-6"></i>
+                        <h3 class="text-xl font-bold text-gray-900">Nossa Visão</h3>
+                    </div>
+                    <p class="text-textLight text-sm leading-relaxed">
+                        Ser referência no desenvolvimento territorial sustentável, promovendo atividades primárias, secundárias e terciárias, fortalecendo nossos diferenciais a partir da ética, democracia e transparência.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-gray-800 hover:-translate-y-1 transition-transform duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i data-lucide="shield-check" class="text-gray-800 w-6 h-6"></i>
+                        <h3 class="text-xl font-bold text-gray-900">Nossos Valores</h3>
+                    </div>
+                    <ul class="text-textLight text-sm space-y-2 list-disc list-inside marker:text-crediGreen">
+                        <li>Ética profissional</li>
+                        <li>Comprometimento e qualidade</li>
+                        <li>Trabalho em equipe</li>
+                        <li>Relacionamento de parceria</li>
+                        <li>Dinamismo e Transparência</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORIGENS E RAÍZES (TEXTO NARRATIVO EXPANDIDO) -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-bgSection">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                
+                <!-- Coluna de Texto Narrativo -->
+                <div class="space-y-8">
+                    <div>
+                        <div class="inline-flex items-center gap-2 text-crediGreen font-semibold mb-4 uppercase tracking-wide text-sm">
+                            <i data-lucide="sprout" class="w-4 h-4"></i>
+                            Como tudo começou
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 font-serif">Um campo fértil de organização e coragem</h2>
+                    </div>
+
+                    <div class="prose prose-lg text-textLight leading-relaxed">
+                        <p>
+                            No início da década de 1990, a região Oeste Catarinense enfrentava um cenário desafiador. O modelo de modernização agrícola da época, focado em grandes escalas, muitas vezes excluía a agricultura familiar. Faltava crédito, faltava apoio e, principalmente, faltava uma instituição que olhasse para o pequeno produtor não como um número, mas como um parceiro.
+                        </p>
+                        
+                        <p>
+                            A centelha da mudança veio de vozes corajosas. Inspirados por lideranças como o bispo <strong>Dom José Gomes</strong>, que em uma reunião desafiou os agricultores dizendo: <em>"Se vocês não fizerem as coisas acontecerem, ninguém vai fazer por vocês"</em>, um movimento começou a tomar forma. Era a semente da autonomia.
+                        </p>
+
+                        <p>
+                            Associações, sindicatos e a APACO (Associação dos Pequenos Agricultores do Oeste Catarinense) iniciaram uma intensa mobilização. Reuniões aconteciam em comunidades rurais de Seara, Itá, Xavantina e Arvoredo, debatendo a criação de um "banquinho dos colonos". Havia desconfiança e medo, mas a esperança de construir algo próprio falava mais alto.
+                        </p>
+
+                        <p>
+                            O sonho se concretizou em 25 de abril de 1994. Cerca de 550 pessoas lotaram o Centro Comunitário de Seara para fundar a CrediSeara. O compromisso era tão genuíno que o valor da cota-parte inicial foi estipulado no equivalente a <strong>um saco de milho</strong>. Foi com essa simplicidade e força coletiva que nascemos: do suor e da colheita de quem acredita na terra.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Coluna de Destaque Visual/Citação -->
+                <div class="lg:sticky lg:top-24 space-y-8">
+                    <div class="bg-white p-10 rounded-2xl shadow-sm border border-gray-200 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-50 rounded-full opacity-50 blur-2xl"></div>
+                        
+                        <blockquote class="relative z-10">
+                            <div class="text-6xl text-gray-100 absolute -top-8 -left-4 font-serif">“</div>
+                            <p class="text-xl font-serif italic text-gray-800 mb-6 leading-relaxed">
+                                Imagine só! Um agricultor que saiu lá da beira do rio Irani, chegar a fazer parte dessa história, isso é muito marcante. A Cooperativa ajudou a minha família e muita gente a permanecer no campo com dignidade.
+                            </p>
+                            <footer class="flex items-center gap-4 border-t border-gray-100 pt-6">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-crediGreen">
+                                    <i data-lucide="user" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-gray-900">Leonir Giaretta</div>
+                                    <div class="text-sm text-textLight">Sócio-fundador e Conselheiro Pioneiro</div>
+                                </div>
+                            </footer>
+                        </blockquote>
+                    </div>
+
+                    <!-- Bloco de destaque extra -->
+                    <div class="bg-crediGreen p-8 rounded-2xl text-white shadow-lg">
+                        <h3 class="font-bold text-xl mb-3 flex items-center gap-2">
+                            <i data-lucide="corn" class="w-6 h-6"></i>
+                            O Símbolo do Milho
+                        </h3>
+                        <p class="text-green-50 text-sm leading-relaxed">
+                            Para se tornar sócio no dia da fundação, cada agricultor contribuiu com o valor correspondente a meio saco de milho na entrada e o restante em seis meses. Esse gesto simbolizava que a cooperativa era feita, literalmente, do fruto do trabalho de seus donos.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LINHA DO TEMPO ESTENDIDA -->
+    <section class="py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">Nossa Jornada</h2>
+                <p class="mt-2 text-textLight">Uma história construída passo a passo por muitas mãos</p>
+            </div>
+
+            <div class="relative">
+                <div class="timeline-line"></div>
+
+                <!-- Item 1: Fundação -->
+                <div class="relative z-10 mb-12 md:mb-0 md:flex md:justify-between items-center group">
+                    <div class="md:w-[45%] mb-4 md:mb-0 md:text-right md:pr-8 order-1">
+                        <span class="text-crediGreen font-bold text-xl block mb-1">1994: A Fundação</span>
+                        <h3 class="text-lg font-bold text-gray-900">Nasce a CrediSeara</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            Em 25 de abril, no Centro Comunitário de Seara, cerca de 550 pessoas aprovam a constituição da Cooperativa. O capital social inicial? O equivalente a sacas de milho.
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-white border-4 border-crediGreen rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md">
+                        <span class="font-bold text-xs text-gray-700">94</span>
+                    </div>
+                    <div class="md:w-[45%] pl-16 md:pl-8 order-3"></div>
+                </div>
+
+                <!-- Item 2: Abertura -->
+                <div class="relative z-10 mb-12 md:mb-0 md:flex md:justify-between items-center group md:mt-12">
+                    <div class="md:w-[45%] order-1 md:order-3 md:pl-8 mb-4 md:mb-0">
+                        <span class="text-crediOrange font-bold text-xl block mb-1">Jan/1995: Portas Abertas</span>
+                        <h3 class="text-lg font-bold text-gray-900">Inauguração Oficial</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            A primeira sede abre na Av. Anita Garibaldi. Um fusca com som de rua anunciava nas comunidades o slogan: "Crédito para a nossa realidade".
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-white border-4 border-crediOrange rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md">
+                        <span class="font-bold text-xs text-gray-700">95</span>
+                    </div>
+                    <div class="md:w-[45%] md:text-right md:pr-8 order-3 md:order-1"></div>
+                </div>
+
+                <!-- Item 3: Primeiro Crédito (Novo) -->
+                <div class="relative z-10 mb-12 md:mb-0 md:flex md:justify-between items-center group md:mt-12">
+                    <div class="md:w-[45%] mb-4 md:mb-0 md:text-right md:pr-8 order-1">
+                        <span class="text-crediGreen font-bold text-xl block mb-1">Ago/1995: O Primeiro Crédito</span>
+                        <h3 class="text-lg font-bold text-gray-900">A Missão se Cumpre</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            Um marco histórico: a liberação dos primeiros recursos de custeio de lavoura (milho e feijão), superando a descrença inicial do sistema bancário tradicional.
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-white border-4 border-crediGreen rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md">
+                        <i data-lucide="check" class="w-5 h-5 text-crediGreen"></i>
+                    </div>
+                    <div class="md:w-[45%] pl-16 md:pl-8 order-3"></div>
+                </div>
+
+                <!-- Item 4: Habitação (Novo) -->
+                <div class="relative z-10 mb-12 md:mb-0 md:flex md:justify-between items-center group md:mt-12">
+                    <div class="md:w-[45%] order-1 md:order-3 md:pl-8 mb-4 md:mb-0">
+                        <span class="text-gray-800 font-bold text-xl block mb-1">2005: Sonho da Casa Própria</span>
+                        <h3 class="text-lg font-bold text-gray-900">Programa de Habitação Rural</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            Adesão ao PNHR. A cooperativa começa a financiar não apenas a produção, mas a dignidade das famílias, substituindo casas precárias por lares novos.
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-white border-4 border-gray-800 rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md">
+                        <i data-lucide="home" class="w-5 h-5 text-gray-800"></i>
+                    </div>
+                    <div class="md:w-[45%] md:text-right md:pr-8 order-3 md:order-1"></div>
+                </div>
+
+                <!-- Item 5: Desenvolvimento (Novo) -->
+                <div class="relative z-10 mb-12 md:mb-0 md:flex md:justify-between items-center group md:mt-12">
+                    <div class="md:w-[45%] mb-4 md:mb-0 md:text-right md:pr-8 order-1">
+                        <span class="text-crediGreen font-bold text-xl block mb-1">2008: Muito Além do Banco</span>
+                        <h3 class="text-lg font-bold text-gray-900">ATER e Fórum de Entidades</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            Criação do Fórum de Entidades da Agricultura Familiar e estruturação do departamento técnico (ATER), focando na diversificação e agroindústrias.
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-white border-4 border-crediGreen rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md">
+                        <i data-lucide="users" class="w-5 h-5 text-crediGreen"></i>
+                    </div>
+                    <div class="md:w-[45%] pl-16 md:pl-8 order-3"></div>
+                </div>
+
+                <!-- Item 6: Setembro Verde (Novo) -->
+                <div class="relative z-10 mb-12 md:mb-0 md:flex md:justify-between items-center group md:mt-12">
+                    <div class="md:w-[45%] order-1 md:order-3 md:pl-8 mb-4 md:mb-0">
+                        <span class="text-crediGreen font-bold text-xl block mb-1">2015: Consciência Ambiental</span>
+                        <h3 class="text-lg font-bold text-gray-900">Campanha Setembro Verde</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            Lançamento da campanha pioneira sobre alimentação saudável e consumo consciente, que se tornou Lei Municipal e Estadual.
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-white border-4 border-crediGreen rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md">
+                        <i data-lucide="leaf" class="w-5 h-5 text-crediGreen"></i>
+                    </div>
+                    <div class="md:w-[45%] md:text-right md:pr-8 order-3 md:order-1"></div>
+                </div>
+
+                <!-- Item 7: Independência -->
+                <div class="relative z-10 mb-12 md:mb-0 md:flex md:justify-between items-center group md:mt-12">
+                    <div class="md:w-[45%] mb-4 md:mb-0 md:text-right md:pr-8 order-1">
+                        <span class="text-gray-800 font-bold text-xl block mb-1">2017: O Voo Solo</span>
+                        <h3 class="text-lg font-bold text-gray-900">Cooperativa Independente</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            A CrediSeara torna-se independente em 1º de julho, buscando autonomia total para atender as especificidades locais com agilidade e proximidade.
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-gray-800 border-4 border-white rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md text-white">
+                        <i data-lucide="flag" class="w-5 h-5"></i>
+                    </div>
+                    <div class="md:w-[45%] pl-16 md:pl-8 order-3"></div>
+                </div>
+
+                <!-- Item 8: Autonomia Bancária (Novo) -->
+                <div class="relative z-10 mb-12 md:mb-0 md:flex md:justify-between items-center group md:mt-12">
+                    <div class="md:w-[45%] order-1 md:order-3 md:pl-8 mb-4 md:mb-0">
+                        <span class="text-crediOrange font-bold text-xl block mb-1">2021: Autonomia Total</span>
+                        <h3 class="text-lg font-bold text-gray-900">Compensação Própria</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            Conquista da compensação própria (Banco nº 430), um marco técnico que consolida a robustez e a maturidade financeira da instituição.
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-white border-4 border-crediOrange rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md">
+                        <span class="font-bold text-xs text-gray-700">21</span>
+                    </div>
+                    <div class="md:w-[45%] md:text-right md:pr-8 order-3 md:order-1"></div>
+                </div>
+
+                <!-- Item 9: Expansão Recente (Novo) -->
+                <div class="relative z-10 md:flex md:justify-between items-center group md:mt-12">
+                    <div class="md:w-[45%] mb-4 md:mb-0 md:text-right md:pr-8 order-1">
+                        <span class="text-crediGreen font-bold text-xl block mb-1">2024: Novos Horizontes</span>
+                        <h3 class="text-lg font-bold text-gray-900">Chegada a Concórdia</h3>
+                        <p class="text-gray-600 mt-2 text-sm">
+                            Inauguração do Posto de Atendimento em Concórdia, ampliando a rede que já conta com unidades em Seara, Arabutã, Arvoredo, Itá e Paial.
+                        </p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 w-12 h-12 bg-white border-4 border-crediGreen rounded-full flex items-center justify-center transform -translate-x-1/2 order-2 shadow-md">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-crediGreen"></i>
+                    </div>
+                    <div class="md:w-[45%] pl-16 md:pl-8 order-3"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VOZES DA COOPERATIVA (DEPOIMENTOS) -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-crediGreen text-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 font-serif">O Orgulho de Quem Faz Parte</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Voz 1 -->
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20">
+                    <p class="italic opacity-90 mb-4 text-sm leading-relaxed">
+                        "O Gilso [Giombelli] presidente e eu vice-presidente, ninguém ganhava salário. Muitas viagens pagamos do próprio bolso. Aos poucos, de forma bem gerenciada a gente cresceu pela competência, honestidade e trabalho."
+                    </p>
+                    <div class="font-bold text-orange-200">- Valdemar Zanluchi</div>
+                </div>
+
+                <!-- Voz 2 -->
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20">
+                    <p class="italic opacity-90 mb-4 text-sm leading-relaxed">
+                        "Algo muito importante no início... nós financiávamos uma, duas vacas de leite. Tinha que ser um animal gestante... para a pessoa ir devolvendo aos pouquinhos em leite. Essa foi uma das experiências mais bonitas."
+                    </p>
+                    <div class="font-bold text-orange-200">- José Dal Bosco</div>
+                </div>
+
+                <!-- Voz 3 -->
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20">
+                    <p class="italic opacity-90 mb-4 text-sm leading-relaxed">
+                        "Um dos grandes desafios hoje é manter essa cultura do cooperativismo e os seus princípios, projetando o crescimento da CrediSeara sem perder a sua essência."
+                    </p>
+                    <div class="font-bold text-orange-200">- Deomira Tedesco</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACTO REAL NO TERRITÓRIO -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">Semeando Desenvolvimento</h2>
+                <p class="mt-4 text-textLight max-w-2xl mx-auto">
+                    Não somos apenas um banco. Somos um agente de transformação local, atuando onde o sistema bancário tradicional muitas vezes não chega.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Bloco 1: ATER -->
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-14 h-14 bg-green-50 rounded-lg flex items-center justify-center text-crediGreen">
+                            <i data-lucide="tractor" class="w-7 h-7"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">ATER: Assistência Técnica</h3>
+                        <p class="text-textLight leading-relaxed">
+                            Um diferencial exclusivo. Mantemos uma equipe de agrônomos e técnicos (Departamento de ATER) que visita as propriedades não apenas para fiscalizar crédito, mas para orientar, planejar e introduzir novas culturas (como a noz-pecã, bambu e a raça Montbéliarde), sem custo adicional para o associado.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bloco 2: Agroindústrias e Pronaf -->
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-14 h-14 bg-orange-50 rounded-lg flex items-center justify-center text-crediOrange">
+                            <i data-lucide="factory" class="w-7 h-7"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Agroindústrias Familiares</h3>
+                        <p class="text-textLight leading-relaxed">
+                            Fomos pioneiros em destravar recursos do Pronaf Infraestrutura na região. Financiamos as primeiras agroindústrias familiares de laticínios e ovos, servindo de avalistas quando outros bancos negavam viabilidade, garantindo valor agregado à produção local.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bloco 3: Habitação Rural -->
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
+                            <i data-lucide="home" class="w-7 h-7"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Habitação Rural (PNHR)</h3>
+                        <p class="text-textLight leading-relaxed">
+                            Aderimos ao Programa Nacional de Habitação Rural em 2005. Mais do que tijolos, financiamos dignidade. Ver famílias trocando casas de madeira precárias por lares novos de alvenaria foi um marco de autoestima e permanência no campo.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bloco 4: Setembro Verde -->
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-14 h-14 bg-green-50 rounded-lg flex items-center justify-center text-crediGreen">
+                            <i data-lucide="leaf" class="w-7 h-7"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Setembro Verde</h3>
+                        <p class="text-textLight leading-relaxed">
+                            Nascido de debates na comunidade, a CrediSeara impulsionou a campanha de conscientização ambiental e alimentação saudável. O projeto cresceu tanto que se tornou Lei Municipal e Estadual, mobilizando escolas e entidades todos os anos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- O FUTURO -->
+    <section class="py-16 px-4 bg-gray-50 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">O Futuro que Nós Somos</h2>
+            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                "Daqui a vinte anos, do ponto de vista bancário, talvez sejamos uma plataforma digital. Mas a CrediSeara tem uma virtude insubstituível: a experiência de acolher pessoas, movimentar a comunidade e descobrir potenciais inimagináveis."
+            </p>
+            <p class="text-sm font-bold text-crediGreen uppercase tracking-wide">— Gilso Giombelli</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white pt-16 pb-8 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-xl font-bold text-crediGreen">CrediSeara</span>
+                    </div>
+                    <p class="text-sm text-gray-500 max-w-xs">
+                        Uma cooperativa independente, feita por pessoas para pessoas. Semeando desenvolvimento em Seara e região desde 1994.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Abrangência</h4>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li>Seara (Sede)</li>
+                        <li>Arabutã</li>
+                        <li>Arvoredo</li>
+                        <li>Concórdia</li>
+                        <li>Itá</li>
+                        <li>Paial</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Contato</h4>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            Av. Beira Rio, 06 - Centro, Seara/SC
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="globe" class="w-4 h-4"></i>
+                            crediseara.com.br
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+                <p>&copy; 2025 Cooperativa de Crédito Rural Seara. Todos os direitos reservados.</p>
+                <p class="mt-2 md:mt-0">Feito com cooperação.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
