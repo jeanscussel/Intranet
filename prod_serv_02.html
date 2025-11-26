@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Crediseara V2</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        crediseara: {
+                            dark: '#006738',
+                            light: '#7CC242',
+                            orange: '#F37021',
+                            bg: '#ffffff',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #ffffff; overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
+        
+        /* Card Styles */
+        .item-card {
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #f3f4f6;
+        }
+        .item-card:hover {
+            border-color: #7CC242;
+            background-color: #f8fafc;
+            transform: translateX(5px);
+        }
+
+        /* Sidebar Link Active State */
+        .nav-link.active {
+            color: #006738;
+            font-weight: 700;
+            border-left: 4px solid #F37021;
+            background-color: #f0fdf4;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #006738; }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        
+        <!-- SIDEBAR / TOPBAR NAVEGAÇÃO -->
+        <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-gray-200 md:h-screen md:sticky md:top-0 z-20 flex-shrink-0">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-crediseara-dark mb-1">Catálogo</h1>
+                <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Produtos & Serviços</p>
+            </div>
+
+            <!-- Busca -->
+            <div class="px-6 pb-4 md:pb-6">
+                <div class="relative">
+                    <i class="ph ph-magnifying-glass absolute left-3 top-2.5 text-gray-400"></i>
+                    <input type="text" id="search-input" placeholder="O que você procura?" 
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-sm focus:ring-2 focus:ring-crediseara-light focus:border-crediseara-light outline-none transition-all">
+                </div>
+            </div>
+
+            <!-- Menu de Navegação -->
+            <nav class="flex md:flex-col overflow-x-auto md:overflow-visible px-6 md:px-0 pb-4 md:pb-0 space-x-4 md:space-x-0 md:space-y-1 scrollbar-hide">
+                <a href="#section-credito" class="nav-link block px-6 py-2.5 text-sm text-gray-600 hover:text-crediseara-dark hover:bg-gray-50 whitespace-nowrap border-l-4 border-transparent transition-all">
+                    Crédito
+                </a>
+                <a href="#section-investimentos" class="nav-link block px-6 py-2.5 text-sm text-gray-600 hover:text-crediseara-dark hover:bg-gray-50 whitespace-nowrap border-l-4 border-transparent transition-all">
+                    Investimentos
+                </a>
+                <a href="#section-seguros" class="nav-link block px-6 py-2.5 text-sm text-gray-600 hover:text-crediseara-dark hover:bg-gray-50 whitespace-nowrap border-l-4 border-transparent transition-all">
+                    Seguros
+                </a>
+                <a href="#section-servicos" class="nav-link block px-6 py-2.5 text-sm text-gray-600 hover:text-crediseara-dark hover:bg-gray-50 whitespace-nowrap border-l-4 border-transparent transition-all">
+                    Serviços
+                </a>
+            </nav>
+            
+            <div class="hidden md:block absolute bottom-0 w-full p-6 bg-gradient-to-t from-white to-transparent">
+                <p class="text-xs text-gray-400 text-center">Uso interno - Intranet</p>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="flex-1 p-6 md:p-12 max-w-5xl mx-auto w-full">
+            
+            <!-- Mensagem Sem Resultados -->
+            <div id="no-results" class="hidden text-center py-20">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+                    <i class="ph ph-magnifying-glass text-2xl text-gray-400"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900">Nenhum item encontrado</h3>
+                <p class="text-gray-500">Tente buscar por termos diferentes.</p>
+                <button onclick="clearSearch()" class="mt-4 text-crediseara-orange font-semibold text-sm hover:underline">Limpar busca</button>
+            </div>
+
+            <!-- SEÇÃO: CRÉDITO -->
+            <section id="section-credito" class="category-section mb-16 scroll-mt-6">
+                <div class="flex items-center gap-3 mb-6 pb-2 border-b border-gray-100">
+                    <div class="w-8 h-8 rounded-full bg-green-100 text-crediseara-dark flex items-center justify-center">
+                        <i class="ph ph-currency-dollar text-lg"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Crédito</h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="list-credito">
+                    <!-- Items injected by JS -->
+                </div>
+            </section>
+
+            <!-- SEÇÃO: INVESTIMENTOS -->
+            <section id="section-investimentos" class="category-section mb-16 scroll-mt-6">
+                <div class="flex items-center gap-3 mb-6 pb-2 border-b border-gray-100">
+                    <div class="w-8 h-8 rounded-full bg-lime-100 text-crediseara-light flex items-center justify-center">
+                        <i class="ph ph-chart-line-up text-lg"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Investimentos</h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="list-investimentos">
+                    <!-- Items injected by JS -->
+                </div>
+            </section>
+
+            <!-- SEÇÃO: SEGUROS -->
+            <section id="section-seguros" class="category-section mb-16 scroll-mt-6">
+                <div class="flex items-center gap-3 mb-6 pb-2 border-b border-gray-100">
+                    <div class="w-8 h-8 rounded-full bg-orange-100 text-crediseara-orange flex items-center justify-center">
+                        <i class="ph ph-shield-check text-lg"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Seguros</h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="list-seguros">
+                    <!-- Items injected by JS -->
+                </div>
+            </section>
+
+            <!-- SEÇÃO: SERVIÇOS -->
+            <section id="section-servicos" class="category-section mb-16 scroll-mt-6">
+                <div class="flex items-center gap-3 mb-6 pb-2 border-b border-gray-100">
+                    <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center">
+                        <i class="ph ph-squares-four text-lg"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Serviços</h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="list-servicos">
+                    <!-- Items injected by JS -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // --- DADOS DOS PRODUTOS ---
+        const products = [
+            // Crédito
+            { id: 1, title: "Crédito Pessoal", category: "credito", desc: "Realização de sonhos e projetos pessoais.", icon: "ph-money", link: "#" },
+            { id: 2, title: "Crédito Rural", category: "credito", desc: "Custeio, investimento e comercialização.", icon: "ph-plant", link: "#" },
+            { id: 3, title: "Financiamento de Veículos", category: "credito", desc: "Taxas para veículos novos e usados.", icon: "ph-car", link: "#" },
+            
+            // Investimentos
+            { id: 4, title: "RDC", category: "investimentos", desc: "Recibo de Depósito Cooperativo.", icon: "ph-chart-line-up", link: "#" },
+            { id: 5, title: "Poupança", category: "investimentos", desc: "Segurança tradicional com força cooperativa.", icon: "ph-piggy-bank", link: "#" },
+            { id: 6, title: "Capital Social", category: "investimentos", desc: "Invista e participe dos resultados.", icon: "ph-users-three", link: "#" },
+
+            // Seguros
+            { id: 7, title: "Seguro de Vida", category: "seguros", desc: "Tranquilidade para você e sua família.", icon: "ph-heart-beat", link: "#" },
+            { id: 8, title: "Seguro Residencial", category: "seguros", desc: "Proteção completa para o seu lar.", icon: "ph-house-line", link: "#" },
+            { id: 9, title: "Seguro Agrícola", category: "seguros", desc: "Segurança contra eventos climáticos.", icon: "ph-cloud-rain", link: "#" },
+            { id: 10, title: "Seguro de Veículos", category: "seguros", desc: "Cobertura completa e assistência 24h.", icon: "ph-car-profile", link: "#" },
+
+            // Serviços
+            { id: 11, title: "Cartões", category: "servicos", desc: "Crédito e débito com vantagens.", icon: "ph-credit-card", link: "#" },
+            { id: 12, title: "Consórcios", category: "servicos", desc: "Planejamento sem juros.", icon: "ph-key", link: "#" },
+            { id: 13, title: "Cobrança Bancária", category: "servicos", desc: "Gestão eficiente de recebíveis.", icon: "ph-receipt", link: "#" },
+            { id: 14, title: "Máquina de Cartão", category: "servicos", desc: "Aceite as principais bandeiras.", icon: "ph-calculator", link: "#" },
+            { id: 15, title: "Boletos", category: "servicos", desc: "Emissão ágil e facilitada.", icon: "ph-barcode", link: "#" }
+        ];
+
+        // --- RENDERIZAÇÃO ---
+        const sections = {
+            'credito': document.getElementById('list-credito'),
+            'investimentos': document.getElementById('list-investimentos'),
+            'seguros': document.getElementById('list-seguros'),
+            'servicos': document.getElementById('list-servicos'),
+        };
+
+        function createCard(product) {
+            return `
+                <a href="${product.link}" target="_blank" class="item-card bg-white rounded-lg p-4 flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-50 text-crediseara-dark flex items-center justify-center text-2xl group-hover:bg-crediseara-dark group-hover:text-white transition-colors">
+                        <i class="ph ${product.icon}"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-base font-bold text-gray-800 mb-1 group-hover:text-crediseara-dark">${product.title}</h4>
+                        <p class="text-sm text-gray-500 line-clamp-2">${product.desc}</p>
+                    </div>
+                    <div class="flex-shrink-0 self-center text-gray-300 group-hover:text-crediseara-orange group-hover:translate-x-1 transition-transform">
+                        <i class="ph ph-caret-right text-lg"></i>
+                    </div>
+                </a>
+            `;
+        }
+
+        function renderAll() {
+            // Limpa containers
+            Object.values(sections).forEach(el => el.innerHTML = '');
+
+            products.forEach(p => {
+                if(sections[p.category]) {
+                    sections[p.category].innerHTML += createCard(p);
+                }
+            });
+        }
+
+        // --- BUSCA INTELIGENTE ---
+        const searchInput = document.getElementById('search-input');
+        const noResults = document.getElementById('no-results');
+        const categorySections = document.querySelectorAll('.category-section');
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            let hasGlobalResults = false;
+
+            // Filtra os produtos
+            const filteredProducts = products.filter(p => 
+                p.title.toLowerCase().includes(term) || 
+                p.desc.toLowerCase().includes(term)
+            );
+
+            // Re-renderiza tudo vazio primeiro
+            Object.values(sections).forEach(el => el.innerHTML = '');
+
+            // Preenche apenas com os filtrados
+            filteredProducts.forEach(p => {
+                if(sections[p.category]) {
+                    sections[p.category].innerHTML += createCard(p);
+                }
+            });
+
+            // Gerencia visibilidade das seções
+            categorySections.forEach(section => {
+                const listContainer = section.querySelector('div[id^="list-"]');
+                if(listContainer.children.length === 0) {
+                    section.classList.add('hidden'); // Esconde a seção inteira se não tiver produtos
+                } else {
+                    section.classList.remove('hidden');
+                    hasGlobalResults = true;
+                }
+            });
+
+            // Mostra tela de "Sem resultados"
+            if (!hasGlobalResults) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        });
+
+        function clearSearch() {
+            searchInput.value = '';
+            searchInput.dispatchEvent(new Event('input'));
+        }
+
+        // --- MENU ATIVO NO SCROLL ---
+        // Destaca o link do menu lateral conforme rola a página
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            categorySections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 150)) {
+                    current = '#' + section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Init
+        renderAll();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Produtos e Serviços Crediseara</title>
+    
+    <!-- Tailwind CSS (Estilização rápida e leve) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Ícones (Phosphor Icons - Visuais modernos e limpos) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Configuração de Cores da Crediseara -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        crediseara: {
+                            dark: '#006738',   // Verde Escuro do Logo
+                            light: '#7CC242',  // Verde Claro do Logo
+                            orange: '#F37021', // Laranja do Logo
+                            gray: '#f5f7fa',   // Fundo suave
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ajustes finos para garantir fundo branco e rolagem suave */
+        body {
+            background-color: #ffffff; /* Fundo branco conforme solicitado */
+            overflow-x: hidden;
+        }
+        
+        /* Efeito de transição suave nos cards */
+        .product-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border-color: #7CC242; /* Borda verde claro ao passar o mouse */
+        }
+
+        /* Estilo da barra de rolagem personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #006738;
+            border-radius: 4px;
+        }
+        
+        /* Animação de entrada */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <!-- Container Principal -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Cabeçalho da Seção (Opcional, pois já estará no Google Sites, mas bom para contexto) -->
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold text-crediseara-dark mb-2">Produtos e Serviços</h2>
+            <p class="text-gray-500">Explore nosso portfólio completo. Selecione um item para ver manuais e orientações.</p>
+        </div>
+
+        <!-- Barra de Controle: Busca e Filtros -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 sticky top-0 bg-white z-10 py-4 border-b border-gray-100">
+            
+            <!-- Filtros de Categoria -->
+            <div class="flex flex-wrap justify-center gap-2" id="category-filters">
+                <button onclick="filterProducts('all')" class="filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-colors bg-crediseara-dark text-white ring-2 ring-crediseara-dark">
+                    Todos
+                </button>
+                <button onclick="filterProducts('credito')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                    Crédito
+                </button>
+                <button onclick="filterProducts('investimentos')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                    Investimentos
+                </button>
+                <button onclick="filterProducts('seguros')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                    Seguros
+                </button>
+                <button onclick="filterProducts('servicos')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                    Serviços
+                </button>
+            </div>
+
+            <!-- Barra de Busca -->
+            <div class="relative w-full md:w-64">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="ph ph-magnifying-glass text-gray-400 text-lg"></i>
+                </div>
+                <input type="text" id="search-input" placeholder="Buscar produto..." 
+                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-crediseara-light focus:border-crediseara-light sm:text-sm transition duration-150 ease-in-out">
+            </div>
+        </div>
+
+        <!-- Grid de Produtos -->
+        <!-- O conteúdo será injetado via JavaScript aqui -->
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Cards serão gerados aqui -->
+        </div>
+        
+        <!-- Mensagem de "Nenhum resultado" -->
+        <div id="no-results" class="hidden text-center py-12">
+            <i class="ph ph-warning-circle text-4xl text-gray-300 mb-2"></i>
+            <p class="text-gray-500">Nenhum produto encontrado para sua busca.</p>
+        </div>
+
+    </div>
+
+    <!-- Script de Lógica -->
+    <script>
+        // --- DADOS DOS PRODUTOS ---
+        // EDITE AQUI: Adicione ou remova produtos conforme a lista real.
+        // 'category' deve coincidir com os filtros acima (credito, investimentos, seguros, servicos)
+        // 'link' é a URL da página do Google Sites específica do produto.
+        
+        const products = [
+            // Categoria: Crédito
+            {
+                id: 1,
+                title: "Crédito Pessoal",
+                category: "credito",
+                description: "Soluções financeiras rápidas para realização de sonhos e projetos pessoais.",
+                icon: "ph-money", // Ícone da biblioteca Phosphor
+                link: "https://sites.google.com/exemplo/credito-pessoal" 
+            },
+            {
+                id: 2,
+                title: "Crédito Rural",
+                category: "credito",
+                description: "Financiamento para custeio, investimento e comercialização da produção.",
+                icon: "ph-plant",
+                link: "#"
+            },
+            {
+                id: 3,
+                title: "Financiamento de Veículos",
+                category: "credito",
+                description: "Taxas competitivas para aquisição de veículos novos e usados.",
+                icon: "ph-car",
+                link: "#"
+            },
+
+            // Categoria: Investimentos
+            {
+                id: 4,
+                title: "RDC",
+                category: "investimentos",
+                description: "Recibo de Depósito Cooperativo com rentabilidade e segurança.",
+                icon: "ph-chart-line-up",
+                link: "#"
+            },
+            {
+                id: 5,
+                title: "Poupança",
+                category: "investimentos",
+                description: "A segurança da poupança tradicional com a força da cooperativa.",
+                icon: "ph-piggy-bank",
+                link: "#"
+            },
+            {
+                id: 6,
+                title: "Capital Social",
+                category: "investimentos",
+                description: "Invista no seu patrimônio e participe dos resultados da Crediseara.",
+                icon: "ph-users-three",
+                link: "#"
+            },
+
+            // Categoria: Seguros
+            {
+                id: 7,
+                title: "Seguro de Vida",
+                category: "seguros",
+                description: "Proteção e tranquilidade para você e sua família.",
+                icon: "ph-heart-beat",
+                link: "#"
+            },
+            {
+                id: 8,
+                title: "Seguro Residencial",
+                category: "seguros",
+                description: "Cuide do seu lar com coberturas completas contra imprevistos.",
+                icon: "ph-house-line",
+                link: "#"
+            },
+            {
+                id: 9,
+                title: "Seguro Agrícola",
+                category: "seguros",
+                description: "Segurança para sua lavoura contra eventos climáticos.",
+                icon: "ph-cloud-rain",
+                link: "#"
+            },
+            {
+                id: 13,
+                title: "Seguro de Veículos",
+                category: "seguros",
+                description: "Proteção completa para seu automóvel com assistência 24 horas e cobertura contra danos.",
+                icon: "ph-car-profile",
+                link: "#"
+            },
+
+            // Categoria: Serviços
+            {
+                id: 10,
+                title: "Cartões",
+                category: "servicos",
+                description: "Cartões de crédito e débito com vantagens exclusivas.",
+                icon: "ph-credit-card",
+                link: "#"
+            },
+            {
+                id: 11,
+                title: "Consórcios",
+                category: "servicos",
+                description: "Planeje a compra de bens sem juros, apenas taxa de administração.",
+                icon: "ph-key",
+                link: "#"
+            },
+            {
+                id: 12,
+                title: "Cobrança Bancária",
+                category: "servicos",
+                description: "Gestão eficiente de recebíveis para sua empresa.",
+                icon: "ph-receipt",
+                link: "#"
+            },
+            {
+                id: 14,
+                title: "Máquina de Cartão",
+                category: "servicos",
+                description: "Soluções de pagamento para o seu negócio aceitar as principais bandeiras do mercado.",
+                icon: "ph-calculator",
+                link: "#"
+            },
+            {
+                id: 15,
+                title: "Boletos",
+                category: "servicos",
+                description: "Emissão ágil de boletos registrados para facilitar o recebimento de suas vendas.",
+                icon: "ph-barcode",
+                link: "#"
+            }
+        ];
+
+        // --- FUNÇÕES DE RENDERIZAÇÃO ---
+
+        const grid = document.getElementById('products-grid');
+        const searchInput = document.getElementById('search-input');
+        const noResults = document.getElementById('no-results');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        function renderProducts() {
+            grid.innerHTML = '';
+            
+            // Filtragem
+            const filtered = products.filter(product => {
+                const matchCategory = currentCategory === 'all' || product.category === currentCategory;
+                const matchSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                    product.description.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchCategory && matchSearch;
+            });
+
+            // Exibir ou ocultar mensagem de "sem resultados"
+            if (filtered.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            // Gerar HTML dos cards
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white rounded-xl p-6 flex flex-col justify-between h-full animate-fade-in relative overflow-hidden group';
+                
+                // Barra colorida no topo (decorativa)
+                const categoryColors = {
+                    'credito': 'bg-crediseara-dark',
+                    'investimentos': 'bg-crediseara-light',
+                    'seguros': 'bg-crediseara-orange',
+                    'servicos': 'bg-gray-400'
+                };
+                const barColor = categoryColors[product.category] || 'bg-crediseara-dark';
+
+                card.innerHTML = `
+                    <div class="absolute top-0 left-0 w-full h-1 ${barColor}"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-lg bg-gray-50 flex items-center justify-center mb-4 text-2xl text-crediseara-dark group-hover:bg-green-50 group-hover:text-crediseara-light transition-colors">
+                            <i class="ph ${product.icon}"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2 leading-tight">${product.title}</h3>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-3">${product.description}</p>
+                    </div>
+                    
+                    <div class="mt-auto pt-4 border-t border-gray-100">
+                        <a href="${product.link}" target="_blank" class="flex items-center justify-between w-full text-sm font-semibold text-crediseara-dark hover:text-crediseara-orange transition-colors">
+                            <span>Acessar Detalhes</span>
+                            <i class="ph ph-arrow-right font-bold"></i>
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+
+        // Busca
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderProducts();
+        });
+
+        // Filtro por Categoria
+        function filterProducts(category) {
+            currentCategory = category;
+            
+            // Atualizar estilo dos botões
+            filterButtons.forEach(btn => {
+                // Remove estilos de ativo
+                btn.className = 'filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer';
+            });
+            
+            // Adiciona estilo ao botão clicado
+            const activeBtn = Array.from(filterButtons).find(b => b.getAttribute('onclick').includes(category));
+            if(activeBtn) {
+                activeBtn.className = 'filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-colors bg-crediseara-dark text-white ring-2 ring-crediseara-dark shadow-md cursor-default';
+            }
+
+            renderProducts();
+        }
+
+        // Inicialização
+        renderProducts();
+
+    </script>
+</body>
+</html>

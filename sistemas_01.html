@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Sistemas - Cooperativa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ícones Lucide (para ilustrar, mas você usará imagens) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Animações suaves */
+        .app-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+            border-color: #3b82f6; /* Azul destaque no hover */
+        }
+
+        /* Estilo da aba ativa */
+        .tab-btn.active {
+            color: #1d4ed8; /* Azul escuro */
+            border-bottom-color: #1d4ed8;
+            background-color: #eff6ff;
+        }
+
+        /* Esconder scrollbar horizontal nas abas em mobile */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-gray-700 p-4 md:p-8 min-h-screen">
+
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- Cabeçalho e Busca -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Portal de Aplicações</h1>
+                <p class="text-gray-500 mt-1">Acesso centralizado aos sistemas da Cooperativa.</p>
+            </div>
+            
+            <!-- Barra de Pesquisa -->
+            <div class="relative w-full md:w-96">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="h-5 w-5 text-gray-400"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg leading-5 bg-gray-50 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out shadow-sm" 
+                    placeholder="Pesquisar sistema (ex: CRM, Gmail...)">
+            </div>
+        </header>
+
+        <!-- Navegação por Abas -->
+        <div class="sticky top-0 z-10 bg-white/95 backdrop-blur pt-2 mb-6 border-b border-gray-200">
+            <nav class="flex space-x-2 overflow-x-auto hide-scrollbar pb-2" aria-label="Tabs">
+                <button onclick="filterCategory('todos')" class="tab-btn active whitespace-nowrap py-2 px-4 border-b-2 border-transparent font-medium text-sm hover:text-blue-600 transition-colors rounded-t-md">
+                    Todos os Apps
+                </button>
+                <button onclick="filterCategory('google')" class="tab-btn whitespace-nowrap py-2 px-4 border-b-2 border-transparent font-medium text-sm hover:text-blue-600 transition-colors rounded-t-md">
+                    Google Workspace
+                </button>
+                <button onclick="filterCategory('equipe')" class="tab-btn whitespace-nowrap py-2 px-4 border-b-2 border-transparent font-medium text-sm hover:text-blue-600 transition-colors rounded-t-md">
+                    Gestão & Equipes
+                </button>
+                <button onclick="filterCategory('operacao')" class="tab-btn whitespace-nowrap py-2 px-4 border-b-2 border-transparent font-medium text-sm hover:text-blue-600 transition-colors rounded-t-md">
+                    Operação Diária
+                </button>
+                <button onclick="filterCategory('geral')" class="tab-btn whitespace-nowrap py-2 px-4 border-b-2 border-transparent font-medium text-sm hover:text-blue-600 transition-colors rounded-t-md">
+                    Geral
+                </button>
+            </nav>
+        </div>
+
+        <!-- Grid de Cards -->
+        <!-- O ID do container é usado pelo JS para filtrar -->
+        <div id="appsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+
+            <!-- GRUPO 1: GOOGLE WORKSPACE -->
+            <!-- Card 1 -->
+            <a href="https://mail.google.com" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="google" data-name="gmail e-mail google">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-red-50 rounded-full group-hover:bg-red-100 transition-colors">
+                    <!-- Substitua este Ícone SVG pela tag <img> com seu logo -->
+                    <!-- Exemplo: <img src="URL_DO_LOGO_GMAIL.png" class="h-10 w-10" alt="Logo"> -->
+                    <i data-lucide="mail" class="h-8 w-8 text-red-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">Gmail</h3>
+                <span class="text-xs text-gray-400 mt-1">E-mail Corporativo</span>
+            </a>
+
+            <!-- Card 2 -->
+            <a href="https://drive.google.com" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="google" data-name="google drive arquivos nuvem">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-blue-50 rounded-full group-hover:bg-blue-100 transition-colors">
+                    <i data-lucide="hard-drive" class="h-8 w-8 text-blue-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">Drive</h3>
+                <span class="text-xs text-gray-400 mt-1">Arquivos na Nuvem</span>
+            </a>
+
+            <!-- Card 3 -->
+            <a href="https://meet.google.com" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="google" data-name="google meet reuniões video">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-yellow-50 rounded-full group-hover:bg-yellow-100 transition-colors">
+                    <i data-lucide="video" class="h-8 w-8 text-yellow-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">Meet</h3>
+                <span class="text-xs text-gray-400 mt-1">Videoconferências</span>
+            </a>
+
+            <!-- GRUPO 2: GESTÃO E EQUIPE -->
+            <!-- Card 4 -->
+            <a href="#" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="equipe" data-name="crm vendas clientes">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-indigo-50 rounded-full group-hover:bg-indigo-100 transition-colors">
+                    <i data-lucide="users" class="h-8 w-8 text-indigo-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">CRM</h3>
+                <span class="text-xs text-gray-400 mt-1">Gestão de Clientes</span>
+            </a>
+
+            <!-- Card 5 -->
+            <a href="#" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="equipe" data-name="rh ponto holerite adp">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-pink-50 rounded-full group-hover:bg-pink-100 transition-colors">
+                    <i data-lucide="user-check" class="h-8 w-8 text-pink-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">Portal RH</h3>
+                <span class="text-xs text-gray-400 mt-1">Ponto e Folha</span>
+            </a>
+
+            <!-- Card 6 -->
+            <a href="#" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="equipe" data-name="bi powerbi dados relatorios">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-orange-50 rounded-full group-hover:bg-orange-100 transition-colors">
+                    <i data-lucide="bar-chart-3" class="h-8 w-8 text-orange-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">Power BI</h3>
+                <span class="text-xs text-gray-400 mt-1">Indicadores</span>
+            </a>
+
+            <!-- GRUPO 3: OPERAÇÃO DIÁRIA -->
+            <!-- Card 7 -->
+            <a href="#" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="operacao" data-name="erp sistema vendas">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-emerald-50 rounded-full group-hover:bg-emerald-100 transition-colors">
+                    <i data-lucide="shopping-cart" class="h-8 w-8 text-emerald-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">Sistema ERP</h3>
+                <span class="text-xs text-gray-400 mt-1">Vendas e Caixa</span>
+            </a>
+
+            <!-- Card 8 -->
+            <a href="#" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="operacao" data-name="estoque logistica wms">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-emerald-50 rounded-full group-hover:bg-emerald-100 transition-colors">
+                    <i data-lucide="package" class="h-8 w-8 text-emerald-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">WMS Estoque</h3>
+                <span class="text-xs text-gray-400 mt-1">Controle Logístico</span>
+            </a>
+
+             <!-- GRUPO 4: GERAL -->
+             <!-- Card 9 -->
+             <a href="#" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="geral" data-name="helpdesk ti chamados suporte">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-gray-100 rounded-full group-hover:bg-gray-200 transition-colors">
+                    <i data-lucide="life-buoy" class="h-8 w-8 text-gray-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">Suporte TI</h3>
+                <span class="text-xs text-gray-400 mt-1">Abrir Chamado</span>
+            </a>
+            
+             <!-- Exemplo de como duplicar -->
+             <a href="#" target="_blank" class="app-card group relative bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center hover:border-blue-300" data-category="geral" data-name="assinatura eletronica docusign">
+                <div class="h-16 w-16 mb-4 flex items-center justify-center bg-purple-50 rounded-full group-hover:bg-purple-100 transition-colors">
+                    <i data-lucide="pen-tool" class="h-8 w-8 text-purple-600"></i>
+                </div>
+                <h3 class="font-semibold text-gray-900 group-hover:text-blue-600">Assinatura</h3>
+                <span class="text-xs text-gray-400 mt-1">Documentos Digitais</span>
+            </a>
+
+        </div>
+
+        <!-- Mensagem de "Nenhum resultado" -->
+        <div id="noResults" class="hidden text-center py-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+                <i data-lucide="search-x" class="h-8 w-8 text-gray-400"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900">Nenhum sistema encontrado</h3>
+            <p class="text-gray-500">Tente buscar por outro termo ou verifique a ortografia.</p>
+        </div>
+
+    </div>
+
+    <!-- Script de Funcionalidade -->
+    <script>
+        // Inicializa os ícones
+        lucide.createIcons();
+
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.app-card');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const noResults = document.getElementById('noResults');
+        let currentCategory = 'todos';
+
+        // Função de Filtragem por Categoria (Abas)
+        function filterCategory(category) {
+            currentCategory = category;
+            
+            // Atualiza visual das abas
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.toLowerCase().includes(category === 'google' ? 'google' : 
+                                                          category === 'equipe' ? 'equipes' : 
+                                                          category === 'operacao' ? 'operação' :
+                                                          category === 'geral' ? 'geral' : 'todos')) {
+                    btn.classList.add('active');
+                }
+            });
+
+            applyFilters();
+        }
+
+        // Função de Busca (Texto)
+        searchInput.addEventListener('input', () => {
+            applyFilters();
+        });
+
+        // Lógica Central de Filtro (Combina Busca + Categoria)
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                const cardName = card.getAttribute('data-name').toLowerCase(); // Inclui palavras-chave escondidas
+                const cardTitle = card.querySelector('h3').textContent.toLowerCase();
+
+                // Verifica se bate com a categoria (ou se é 'todos')
+                const matchesCategory = currentCategory === 'todos' || cardCategory === currentCategory;
+                
+                // Verifica se bate com a busca (se houver texto)
+                // Se o usuário estiver pesquisando, ignoramos a categoria para buscar em tudo
+                const matchesSearch = searchTerm === '' || cardName.includes(searchTerm) || cardTitle.includes(searchTerm);
+
+                // Regra de exibição:
+                // Se tiver busca, mostra tudo que bate com a busca (ignora abas).
+                // Se não tiver busca, obedece as abas.
+                let isVisible;
+                
+                if (searchTerm !== '') {
+                    isVisible = matchesSearch;
+                } else {
+                    isVisible = matchesCategory;
+                }
+
+                if (isVisible) {
+                    card.style.display = 'flex'; // Restaura display flex do card
+                    setTimeout(() => card.style.opacity = '1', 10); // Fade in suave
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                    card.style.opacity = '0';
+                }
+            });
+
+            // Mostra mensagem de "nada encontrado"
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

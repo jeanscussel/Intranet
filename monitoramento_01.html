@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Monitoramento - Cooperativa</title>
+    <!-- Tailwind CSS para estilização rápida e moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonte Inter para um visual corporativo limpo -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff; /* Fundo branco solicitado */
+        }
+        
+        /* Efeito suave ao passar o mouse nos cards */
+        .camera-card {
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .camera-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #059669; /* Verde Cooperativa ao passar o mouse */
+        }
+
+        /* Ícones SVG estilizados */
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body class="text-gray-800 p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Cabeçalho -->
+        <header class="mb-8 text-center md:text-left border-b pb-6">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Monitoramento de Segurança</h1>
+            <p class="text-gray-500">Acesso rápido às câmeras das unidades da Cooperativa.</p>
+        </header>
+
+        <!-- Aviso de Uso Responsável -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-8 rounded-r shadow-sm" role="alert">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <!-- Ícone de Alerta -->
+                    <svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-amber-800">Política de Uso das Imagens</h3>
+                    <div class="mt-2 text-sm text-amber-700">
+                        <p>
+                            O acesso a este sistema é monitorado. As imagens devem ser utilizadas estritamente para fins de segurança e acompanhamento operacional. 
+                            <strong>É proibido divulgar, gravar ou compartilhar imagens externamente</strong> sem autorização prévia. O uso indiscriminado está sujeito a medidas administrativas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de Agências -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            <!-- Agência: Retaguarda -->
+            <!-- ATENÇÃO: Substitua o href="#" pelo link real da câmera -->
+            <a href="http://192.168.50.150:8080/" target="_blank" rel="noopener noreferrer" class="camera-card bg-white rounded-lg p-6 group block">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-gray-100 p-3 rounded-full group-hover:bg-green-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-gray-600 group-hover:text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-semibold px-2 py-1 bg-gray-100 text-gray-600 rounded-full group-hover:bg-green-100 group-hover:text-green-800">Matriz</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700">Retaguarda</h3>
+                <p class="text-sm text-gray-500 mt-1">Central Administrativa</p>
+                <div class="mt-4 flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Acessar Câmeras 
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+            </a>
+
+            <!-- Agência: Arvoredo -->
+            <a href="http://192.168.53.150:8080/" target="_blank" rel="noopener noreferrer" class="camera-card bg-white rounded-lg p-6 group block">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-gray-100 p-3 rounded-full group-hover:bg-green-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-gray-600 group-hover:text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700">Arvoredo</h3>
+                <p class="text-sm text-gray-500 mt-1">Unidade Local</p>
+                <div class="mt-4 flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Acessar Câmeras 
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+            </a>
+
+            <!-- Agência: Seara -->
+            <a href="http://192.168.51.150:8080/" target="_blank" rel="noopener noreferrer" class="camera-card bg-white rounded-lg p-6 group block">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-gray-100 p-3 rounded-full group-hover:bg-green-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-gray-600 group-hover:text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700">Seara</h3>
+                <p class="text-sm text-gray-500 mt-1">Unidade Local</p>
+                <div class="mt-4 flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Acessar Câmeras 
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+            </a>
+
+            <!-- Agência: Arabutã -->
+            <a href="http://192.168.55.150:8080/" target="_blank" rel="noopener noreferrer" class="camera-card bg-white rounded-lg p-6 group block">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-gray-100 p-3 rounded-full group-hover:bg-green-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-gray-600 group-hover:text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700">Arabutã</h3>
+                <p class="text-sm text-gray-500 mt-1">Unidade Local</p>
+                <div class="mt-4 flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Acessar Câmeras 
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+            </a>
+
+            <!-- Agência: Paial -->
+            <a href="http://192.168.54.150:8080/" target="_blank" rel="noopener noreferrer" class="camera-card bg-white rounded-lg p-6 group block">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-gray-100 p-3 rounded-full group-hover:bg-green-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-gray-600 group-hover:text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700">Paial</h3>
+                <p class="text-sm text-gray-500 mt-1">Unidade Local</p>
+                <div class="mt-4 flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Acessar Câmeras 
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+            </a>
+
+            <!-- Agência: Itá -->
+            <a href="http://192.168.52.150:8080/" target="_blank" rel="noopener noreferrer" class="camera-card bg-white rounded-lg p-6 group block">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-gray-100 p-3 rounded-full group-hover:bg-green-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-gray-600 group-hover:text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700">Itá</h3>
+                <p class="text-sm text-gray-500 mt-1">Unidade Local</p>
+                <div class="mt-4 flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Acessar Câmeras 
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+            </a>
+
+            <!-- Agência: Concórdia -->
+            <a href="http://192.168.56.150:8080/" target="_blank" rel="noopener noreferrer" class="camera-card bg-white rounded-lg p-6 group block">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="bg-gray-100 p-3 rounded-full group-hover:bg-green-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-gray-600 group-hover:text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700">Concórdia</h3>
+                <p class="text-sm text-gray-500 mt-1">Unidade Local</p>
+                <div class="mt-4 flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Acessar Câmeras 
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+            </a>
+            
+            <!-- Adicionar Nova: Card de exemplo para quando precisar criar mais -->
+            <!-- 
+            <a href="#" target="_blank" rel="noopener noreferrer" class="camera-card bg-white rounded-lg p-6 group block border-dashed border-2 border-gray-300 hover:border-green-500">
+                <div class="flex items-center justify-center h-full text-gray-400 group-hover:text-green-600">
+                    <span class="text-center font-medium">+ Adicionar Nova Agência</span>
+                </div>
+            </a> 
+            -->
+
+        </div>
+
+        <footer class="mt-12 text-center text-sm text-gray-400 border-t pt-6">
+            <p>© 2025 Departamento de Tecnologia da Informação - CrediSeara</p>
+        </footer>
+
+    </div>
+</body>
+</html>

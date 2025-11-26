@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Sistemas V2 - Cooperativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Fundo levemente cinza para destacar os cards brancos */
+            scroll-behavior: smooth;
+        }
+
+        /* Estilo dos Cards V2 */
+        .app-card-v2 {
+            transition: all 0.2s ease-in-out;
+            background: white;
+            border: 1px solid #e2e8f0;
+        }
+
+        .app-card-v2:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-color: #3b82f6;
+        }
+
+        /* Esconder scrollbar dos botões de navegação */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-gray-600 p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+
+        <!-- Cabeçalho Centralizado -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-gray-900">Hub de Aplicações</h1>
+            <p class="text-gray-500 mt-2 text-sm">Acesse todas as ferramentas da Cooperativa em um só lugar.</p>
+            
+            <!-- Barra de Busca Grande -->
+            <div class="mt-6 relative max-w-xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="h-5 w-5 text-gray-400"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-10 pr-4 py-3 border-gray-200 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm border bg-white" 
+                    placeholder="O que você precisa acessar hoje?">
+            </div>
+        </header>
+
+        <!-- Navegação Rápida (Jump Links) -->
+        <nav class="flex justify-center space-x-2 mb-10 overflow-x-auto no-scrollbar py-2" id="navFilters">
+            <a href="#section-google" class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors whitespace-nowrap">
+                Google Workspace
+            </a>
+            <a href="#section-equipe" class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors whitespace-nowrap">
+                Gestão & Equipes
+            </a>
+            <a href="#section-operacao" class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors whitespace-nowrap">
+                Operação
+            </a>
+            <a href="#section-geral" class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors whitespace-nowrap">
+                Geral
+            </a>
+        </nav>
+
+        <!-- SEÇÃO 1: GOOGLE -->
+        <section id="section-google" class="app-section mb-12 scroll-mt-6">
+            <div class="flex items-center mb-4 border-b border-gray-200 pb-2">
+                <span class="bg-red-100 text-red-600 p-1.5 rounded-lg mr-3">
+                    <i data-lucide="grid" class="h-5 w-5"></i>
+                </span>
+                <h2 class="text-xl font-semibold text-gray-800">Google Workspace</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Card -->
+                <a href="https://mail.google.com" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="gmail e-mail">
+                    <div class="w-12 h-12 mb-3 bg-red-50 rounded-full flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <i data-lucide="mail" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">Gmail</span>
+                </a>
+                
+                <!-- Card -->
+                <a href="https://drive.google.com" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="drive arquivos nuvem">
+                    <div class="w-12 h-12 mb-3 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="hard-drive" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">Drive</span>
+                </a>
+
+                 <!-- Card -->
+                 <a href="https://calendar.google.com" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="agenda calendario google">
+                    <div class="w-12 h-12 mb-3 bg-green-50 rounded-full flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                        <i data-lucide="calendar" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">Agenda</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: EQUIPE -->
+        <section id="section-equipe" class="app-section mb-12 scroll-mt-6">
+            <div class="flex items-center mb-4 border-b border-gray-200 pb-2">
+                <span class="bg-indigo-100 text-indigo-600 p-1.5 rounded-lg mr-3">
+                    <i data-lucide="users" class="h-5 w-5"></i>
+                </span>
+                <h2 class="text-xl font-semibold text-gray-800">Gestão & Equipes</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <a href="#" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="crm vendas">
+                    <!-- Placeholder Imagem -->
+                    <div class="w-12 h-12 mb-3 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <span class="font-bold text-lg">C</span>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">CRM</span>
+                </a>
+
+                <a href="#" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="portal rh ponto holerite">
+                    <div class="w-12 h-12 mb-3 bg-pink-50 rounded-full flex items-center justify-center text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-colors">
+                        <i data-lucide="heart-handshake" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">Portal RH</span>
+                </a>
+
+                <a href="#" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="bi powerbi relatorios">
+                    <div class="w-12 h-12 mb-3 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-600 group-hover:bg-yellow-600 group-hover:text-white transition-colors">
+                        <i data-lucide="bar-chart-2" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">Power BI</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: OPERAÇÃO -->
+        <section id="section-operacao" class="app-section mb-12 scroll-mt-6">
+            <div class="flex items-center mb-4 border-b border-gray-200 pb-2">
+                <span class="bg-emerald-100 text-emerald-600 p-1.5 rounded-lg mr-3">
+                    <i data-lucide="briefcase" class="h-5 w-5"></i>
+                </span>
+                <h2 class="text-xl font-semibold text-gray-800">Operação Diária</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <a href="#" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="erp sistema vendas">
+                    <div class="w-12 h-12 mb-3 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                        <i data-lucide="monitor" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">ERP</span>
+                </a>
+
+                <a href="#" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="wms estoque logistica">
+                    <div class="w-12 h-12 mb-3 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                        <i data-lucide="package" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">Estoque</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: GERAL -->
+        <section id="section-geral" class="app-section mb-12 scroll-mt-6">
+            <div class="flex items-center mb-4 border-b border-gray-200 pb-2">
+                <span class="bg-gray-100 text-gray-600 p-1.5 rounded-lg mr-3">
+                    <i data-lucide="layers" class="h-5 w-5"></i>
+                </span>
+                <h2 class="text-xl font-semibold text-gray-800">Geral</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <a href="#" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="suporte ti chamados">
+                    <div class="w-12 h-12 mb-3 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-gray-800 group-hover:text-white transition-colors">
+                        <i data-lucide="life-buoy" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">Suporte TI</span>
+                </a>
+
+                <a href="#" target="_blank" class="app-card-v2 rounded-xl p-4 flex flex-col items-center text-center group" data-name="assinatura docusign digital">
+                    <div class="w-12 h-12 mb-3 bg-purple-50 rounded-full flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                        <i data-lucide="pen-tool" class="h-6 w-6"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900 text-sm">Assinatura</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Mensagem de erro -->
+        <div id="noResultsV2" class="hidden text-center py-12">
+            <p class="text-gray-400">Nenhum aplicativo encontrado.</p>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const searchInputV2 = document.getElementById('searchInput');
+        // Seleciona todas as seções
+        const sections = document.querySelectorAll('.app-section');
+        const noResultsV2 = document.getElementById('noResultsV2');
+        const navFilters = document.getElementById('navFilters');
+
+        searchInputV2.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            let totalVisible = 0;
+
+            // Se tiver busca, esconde a navegação rápida para limpar a tela
+            if(term.length > 0) {
+                navFilters.classList.add('hidden');
+            } else {
+                navFilters.classList.remove('hidden');
+            }
+
+            sections.forEach(section => {
+                const cards = section.querySelectorAll('.app-card-v2');
+                let sectionVisibleCount = 0;
+
+                cards.forEach(card => {
+                    const name = card.getAttribute('data-name').toLowerCase();
+                    const title = card.querySelector('span.font-semibold').textContent.toLowerCase();
+                    
+                    if(name.includes(term) || title.includes(term)) {
+                        card.style.display = 'flex'; // Volta a ser flex para alinhar
+                        sectionVisibleCount++;
+                        totalVisible++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Se a seção não tiver nenhum card visível após o filtro, esconde a seção inteira
+                if(sectionVisibleCount === 0) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = 'block';
+                }
+            });
+
+            // Mostra mensagem se nada for encontrado
+            if(totalVisible === 0) {
+                noResultsV2.classList.remove('hidden');
+            } else {
+                noResultsV2.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
