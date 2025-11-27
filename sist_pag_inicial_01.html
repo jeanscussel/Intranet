@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Rápido Intranet</title>
+    <style>
+        /* Reset básico e Fontes */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: transparent;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            /* No desktop, usamos 100vh para centralizar verticalmente na área do iframe */
+            min-height: 100vh; 
+            overflow: hidden; /* Desktop não deve ter scroll na página em si */
+            padding: 5px; /* Margem de segurança */
+        }
+
+        /* Container Principal */
+        .scroll-container {
+            width: 100%;
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            
+            /* COMPORTAMENTO DESKTOP (Padrão) */
+            display: flex;
+            flex-wrap: nowrap; /* Linha única */
+            gap: 16px;
+            overflow-x: auto; /* Scroll horizontal se necessário */
+            overflow-y: hidden;
+            
+            scroll-behavior: smooth;
+            align-items: center;
+        }
+
+        /* Scrollbar Desktop */
+        .scroll-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        .scroll-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scroll-container::-webkit-scrollbar-thumb {
+            background-color: #e0e0e0;
+            border-radius: 20px;
+        }
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background-color: #bdbdbd;
+        }
+
+        /* O Botão (Card) */
+        .nav-item {
+            flex: 0 0 auto;
+            width: 110px;
+            height: 110px;
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            background: #f8f9fa;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #4a5568;
+            
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item svg {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 12px;
+            stroke: #2d3748;
+            stroke-width: 2;
+            transition: stroke 0.3s ease;
+        }
+
+        .nav-item span {
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.2;
+            color: #4a5568;
+            padding: 0 4px; /* Evita texto colado na borda */
+        }
+
+        /* Hover Desktop */
+        @media (hover: hover) {
+            .nav-item:hover {
+                background: #ffffff;
+                transform: translateY(-5px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                border-color: #e2e8f0;
+                color: #2563eb;
+            }
+            .nav-item:hover svg {
+                stroke: #2563eb;
+                transform: scale(1.1);
+            }
+        }
+
+        /* --- COMPORTAMENTO MOBILE (Responsivo em Grade) --- */
+        @media (max-width: 768px) {
+            body {
+                /* No mobile, removemos a altura fixa para o conteúdo crescer verticalmente */
+                height: auto;
+                min-height: auto;
+                overflow-y: auto;
+                align-items: flex-start; /* Alinha no topo */
+            }
+
+            .scroll-container {
+                /* Transforma em Grade (Grid) */
+                display: grid;
+                /* 4 colunas iguais. Se a tela for muito pequena, ajusta automaticamente */
+                grid-template-columns: repeat(4, 1fr); 
+                gap: 8px;
+                
+                overflow-x: hidden; /* Remove scroll horizontal */
+                overflow-y: visible;
+                padding: 10px;
+                flex-wrap: wrap; /* Fallback */
+            }
+
+            .nav-item {
+                width: 100%; /* Ocupa a célula do grid */
+                height: 90px; /* Um pouco mais compacto */
+                margin: 0;
+            }
+
+            .nav-item svg {
+                width: 24px;
+                height: 24px;
+                margin-bottom: 6px;
+            }
+
+            .nav-item span {
+                font-size: 11px; /* Fonte menor para caber */
+            }
+        }
+
+        /* Ajuste para telas MUITO pequenas (iPhone SE, etc) */
+        @media (max-width: 360px) {
+            .scroll-container {
+                grid-template-columns: repeat(3, 1fr); /* Reduz para 3 colunas se faltar espaço */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scroll-container" id="scrollContainer">
+        
+        <!-- ITEM 1: RH / Portal do Colaborador -->
+        <a href="https://google.com" target="_blank" class="nav-item" title="Acessar Portal RH">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Portal RH</span>
+        </a>
+
+        <!-- ITEM 2: E-mail Corporativo -->
+        <a href="https://outlook.office.com" target="_blank" class="nav-item" title="Acessar E-mail">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Webmail</span>
+        </a>
+
+        <!-- ITEM 3: ERP / Sistema Financeiro -->
+        <a href="https://sap.com" target="_blank" class="nav-item" title="Sistema Financeiro">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            <span>ERP / Finan</span>
+        </a>
+
+        <!-- ITEM 4: Chamados / TI -->
+        <a href="#" target="_blank" class="nav-item" title="Abrir Chamado">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+            <span>Suporte TI</span>
+        </a>
+
+        <!-- ITEM 5: Drive / Documentos -->
+        <a href="#" target="_blank" class="nav-item" title="Gestão de Documentos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>GED / Docs</span>
+        </a>
+
+        <!-- ITEM 6: CRM / Vendas -->
+        <a href="#" target="_blank" class="nav-item" title="Sistema de Vendas">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            <span>Comercial</span>
+        </a>
+
+        <!-- ITEM 7: Agenda / Reservas -->
+        <a href="#" target="_blank" class="nav-item" title="Reserva de Salas">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Reservas</span>
+        </a>
+
+        <!-- ITEM 8: Universidades / Treinamento -->
+        <a href="#" target="_blank" class="nav-item" title="Universidade Corporativa">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+            <span>Treinamento</span>
+        </a>
+
+    </div>
+
+    <!-- Script para rolagem horizontal com roda do mouse (Apenas Desktop) -->
+    <script>
+        const scrollContainer = document.getElementById("scrollContainer");
+
+        // Detecta se é dispositivo móvel (básico)
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+        if (!isMobile) {
+            scrollContainer.addEventListener("wheel", (evt) => {
+                if(evt.deltaY !== 0) {
+                    evt.preventDefault();
+                    scrollContainer.scrollLeft += evt.deltaY;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
