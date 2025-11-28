@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Rápido Intranet</title>
+    
+    <!-- Biblioteca de ícones (Remix Icon) -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: transparent;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centraliza o container na tela */
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        /* Container da Barra */
+        .app-bar {
+            width: 100%;
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+
+            /* --- DESKTOP: Linha Horizontal Centralizada --- */
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 25px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            
+            /* MUDANÇA 1: Centralizar os ícones no Desktop */
+            justify-content: center; 
+            align-items: flex-start;
+            
+            scroll-behavior: smooth;
+        }
+
+        .app-bar::-webkit-scrollbar {
+            height: 0px;
+            background: transparent;
+        }
+
+        /* O Item */
+        .app-item {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+            width: 90px;
+        }
+
+        /* O Círculo do Ícone */
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #f0f4f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 2px solid transparent;
+        }
+
+        /* Configuração dos Ícones */
+        .icon-circle i {
+            font-size: 30px;
+            color: #475569;
+            transition: color 0.3s ease;
+            line-height: 1;
+        }
+
+        /* O Texto */
+        .app-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+            max-width: 100%;
+            
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        /* --- EFEITOS HOVER (Desktop) --- */
+        @media (hover: hover) {
+            .app-item:hover .icon-circle {
+                background: #eff6ff;
+                border-color: #bfdbfe;
+                transform: translateY(-5px) scale(1.05);
+                box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.15);
+            }
+
+            .app-item:hover .icon-circle i {
+                color: #2563eb; 
+            }
+
+            .app-item:hover .app-label {
+                color: #2563eb;
+                font-weight: 600;
+            }
+        }
+
+        /* --- MOBILE & TABLET (Responsividade em Grade) --- */
+        @media (max-width: 992px) {
+            body {
+                height: 100vh; /* Força altura total */
+                align-items: flex-start; /* Alinha ao topo para não cortar se centralizar */
+                display: block; /* Remove flexbox centralizador do desktop */
+                overflow-y: hidden; /* Controla scroll no container filho */
+            }
+
+            .app-bar {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px 10px;
+                padding: 15px;
+                
+                /* MUDANÇA 2: Scroll Vertical Seguro */
+                /* Se o iframe for pequeno, isso permite rolar DENTRO do widget */
+                overflow-y: auto; 
+                max-height: 98vh; /* Limita altura para ativar o scroll se necessário */
+                
+                justify-content: center;
+            }
+
+            .app-item {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .icon-circle {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .icon-circle i {
+                font-size: 24px;
+            }
+
+            .app-label {
+                font-size: 11px;
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .app-bar {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-bar" id="scrollContainer">
+        
+        <!-- ITEM 1: Gmail -->
+        <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" class="app-item" title="Gmail">
+            <div class="icon-circle">
+                <i class="ri-mail-line"></i>
+            </div>
+            <span class="app-label">Gmail</span>
+        </a> 
+        
+        <!-- ITEM 2: Google Drive -->
+        <a href="https://drive.google.com/drive/home" target="_blank" class="app-item" title="Google Drive">
+            <div class="icon-circle">
+                <i class="ri-drive-line"></i>
+            </div>
+            <span class="app-label">Google Drive</span>
+        </a>       
+
+        <!-- ITEM 3: Caixa Web -->
+        <a href="https://caixaweb.crediseara.cashway.io/" target="_blank" class="app-item" title="Caixa Web">
+            <div class="icon-circle">
+                <i class="ri-calculator-line"></i>
+            </div>
+            <span class="app-label">Caixa Web</span>
+        </a>
+
+        <!-- ITEM 4: Gerencial -->
+        <a href="https://gerencial.crediseara.cashway.io/" target="_blank" class="app-item" title="Gerencial">
+            <div class="icon-circle">
+                <i class="ri-settings-5-line"></i>
+            </div>
+            <span class="app-label">Gerencial</span>
+        </a>
+
+        <!-- ITEM 5: Moti -->
+        <a href="https://seara.moticonsultoria.com.br/users/sign_in" target="_blank" class="app-item" title="Moti Analytics">
+            <div class="icon-circle">
+                <i class="ri-bar-chart-line"></i>
+            </div>
+            <span class="app-label">Moti</span>
+        </a>
+
+        <!-- ITEM 6: ZEEV -->
+        <a href="https://crediseara.zeev.it " target="_blank" class="app-item" title="ZEEV">
+            <div class="icon-circle">
+                <i class="ri-flow-chart"></i>
+            </div>
+            <span class="app-label">ZEEV</span>
+        </a>
+
+        <!-- ITEM 7: Factorial -->
+        <a href="https://app.factorialhr.com/dashboard" target="_blank" class="app-item" title="Factorial">
+            <div class="icon-circle">
+                <i class="ri-account-circle-line"></i>
+            </div>
+            <span class="app-label">Factorial</span>
+        </a>
+
+        <!-- ITEM 8: Zoho CRM -->
+        <a href="#" target="_blank" class="app-item" title="Zoho CRM">
+            <div class="icon-circle">
+                <i class="ri-box-3-line"></i>
+            </div>
+            <span class="app-label">Zoho CRM</span>
+        </a>
+
+    </div>
+
+    <!-- Script para rolagem horizontal (Apenas Desktop) -->
+    <script>
+        const scrollContainer = document.getElementById("scrollContainer");
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 992;
+
+        if (!isMobile) {
+            scrollContainer.addEventListener("wheel", (evt) => {
+                if(evt.deltaY !== 0 && window.innerWidth >= 992) {
+                    evt.preventDefault();
+                    scrollContainer.scrollLeft += evt.deltaY;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
