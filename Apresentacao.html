@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Conecta - Apresentação Executiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0284c7; /* Azul Corporativo */
+            --secondary: #059669; /* Verde Corporativo */
+            --dark: #1e293b; /* Texto Escuro */
+            --light: #f8fafc; /* Fundo Claro */
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0;
+            color: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* CONTAINER PRINCIPAL (O Canvas) */
+        .presentation-container {
+            width: 1280px;
+            max-width: 100%;
+            background: var(--light);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            height: 90vh;
+            scroll-behavior: smooth;
+        }
+
+        /* BACKGROUND DECORATION (Elementos 3D Flutuantes Sutis) */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(2, 132, 199, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -100px;
+            right: -100px;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(5, 150, 105, 0.15) 0%, rgba(0,0,0,0) 70%);
+            bottom: 20%;
+            left: -100px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+            100% { transform: translateY(0px) scale(1); }
+        }
+
+        /* SLIDE ESTILO */
+        .slide {
+            min-height: 720px; /* Altura fixa para simular slide */
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .slide:last-child {
+            border-bottom: none;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 56px;
+            color: var(--dark);
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        p, li {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #64748b;
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+
+        /* LAYOUT GRIDS */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* CARDS & GLASSMORPHISM */
+        .card {
+            background: var(--white);
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: #e0f2fe; /* Light Blue */
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .icon-box.danger {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .icon-box.success {
+            background: #dcfce7;
+            color: var(--secondary);
+        }
+
+        /* IMAGES & MOCKUPS */
+        .mockup-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border: 8px solid #fff;
+        }
+
+        .mockup-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* LISTS */
+        ul.check-list {
+            list-style: none;
+        }
+
+        ul.check-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: start;
+        }
+
+        ul.check-list li i {
+            color: var(--secondary);
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+        
+        ul.danger-list li i {
+            color: #ef4444;
+        }
+
+        /* CHART BARS */
+        .chart-bar-container {
+            margin-top: 20px;
+        }
+        .chart-row {
+            margin-bottom: 20px;
+        }
+        .chart-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .progress-bg {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            animation: grow 1.5s ease-out forwards;
+        }
+        .fill-red { background: #ef4444; width: 0; --target-width: 100%; }
+        .fill-green { background: var(--secondary); width: 0; --target-width: 5%; }
+
+        @keyframes grow {
+            to { width: var(--target-width); }
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            margin-top: 40px;
+            padding-left: 30px;
+            border-left: 3px solid #e2e8f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -39px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border: 4px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px #e0f2fe;
+        }
+
+        .timeline-date {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* FOOTER BADGE */
+        .footer-badge {
+            position: absolute;
+            bottom: 40px;
+            left: 80px;
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* UTILS */
+        .text-center { text-align: center; }
+        .mt-4 { margin-top: 20px; }
+        .mb-2 { margin-bottom: 10px; }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .tag-blue { background: #e0f2fe; color: var(--primary); }
+
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <!-- Floating shapes for depth -->
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+
+        <!-- SLIDE 1: Capa Impactante -->
+        <div class="slide">
+            <div class="grid-2">
+                <div>
+                    <span class="tag tag-blue">Tecnologia & Estratégia Corporativa</span>
+                    <h1>Projeto Conecta</h1>
+                    <p class="subtitle">Governança, Comunicação Unificada e Eficiência Operacional.</p>
+                    <div style="width: 100px; height: 5px; background: var(--primary); margin-top: 20px;"></div>
+                </div>
+                <div class="mockup-container">
+                    <!-- Imagem Heroica: Pessoa usando notebook/tablet -->
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/18260126937213454286" alt="Colaborador usando a nova Intranet">
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: O Cenário Atual (A Dor) -->
+        <div class="slide">
+            <div class="text-center" style="margin-bottom: 60px;">
+                <h2>O Risco do "Telefone Sem Fio"</h2>
+                <p>A fragmentação da informação gera riscos ocultos para a cooperativa.</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <div class="icon-box danger"><i class="fa-brands fa-whatsapp"></i></div>
+                    <h3>Risco de Compliance</h3>
+                    <p style="font-size: 16px; margin-top: 10px;">Uso excessivo de WhatsApp pessoal. Dados estratégicos circulando em canais não auditáveis e sem backup.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-box danger"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+                    <h3>Despadronização</h3>
+                    <p style="font-size: 16px; margin-top: 10px;">Informações descentralizadas geram processos diferentes entre as agências. A ponta não segue a matriz.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-box danger"><i class="fa-solid fa-file-excel"></i></div>
+                    <h3>Shadow IT</h3>
+                    <p style="font-size: 16px; margin-top: 10px;">Planilhas locais sem controle de versão. Cálculos financeiros feitos em ferramentas não oficiais.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Pilar 1 - Compliance e Segurança -->
+        <div class="slide">
+            <div class="grid-2">
+                <div>
+                    <h2>Centralização Auditável</h2>
+                    <p class="mb-2">Migração para ecossistema Enterprise.</p>
+                    <br>
+                    <ul class="check-list">
+                        <li>
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <div>
+                                <strong>Ambiente Controlado</strong>
+                                <br><span style="font-size: 16px; color: #64748b;">Google Workspace com segurança corporativa.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-fingerprint"></i>
+                            <div>
+                                <strong>Acesso Blindado (SSO)</strong>
+                                <br><span style="font-size: 16px; color: #64748b;">Login Único. Saiu da empresa, perdeu o acesso imediatamente.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-bullhorn"></i>
+                            <div>
+                                <strong>Canal Oficial</strong>
+                                <br><span style="font-size: 16px; color: #64748b;">A "Única Fonte da Verdade". Eliminação de ruídos e boatos.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div class="card" style="width: 80%; text-align: center; border-top: 4px solid var(--primary);">
+                        <i class="fa-brands fa-google" style="font-size: 40px; color: #4285F4; margin-bottom: 20px;"></i>
+                        <h3>Login Corporativo</h3>
+                        <p style="margin: 20px 0; font-size: 14px; color: #64748b;">Acesse com sua conta da Cooperativa</p>
+                        <div style="background: var(--primary); color: white; padding: 12px; border-radius: 6px; font-weight: 600;">Entrar no Conecta</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Pilar 2 - Cultura e Pertencimento -->
+        <div class="slide">
+            <div class="grid-2">
+                 <div class="mockup-container">
+                    <!-- Imagem: Pessoas sorrindo / Cultura -->
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/6045934570075429141" alt="Equipe engajada">
+                </div>
+                <div style="padding-left: 40px;">
+                    <h2>Uma Cultura Única</h2>
+                    <ul class="check-list">
+                        <li>
+                            <i class="fa-solid fa-heart" style="color: var(--primary);"></i>
+                            <div>
+                                <strong>Identidade & Valores</strong>
+                                <br>Reforço diário da marca para todas as agências.
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-users" style="color: var(--primary);"></i>
+                            <div>
+                                <strong>Democratização</strong>
+                                <br>O caixa da agência distante tem a mesma informação que a Diretoria.
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-rocket" style="color: var(--primary);"></i>
+                            <div>
+                                <strong>Onboarding Ágil</strong>
+                                <br>História, Missão e Normas organizadas para o 1º dia do novo colaborador.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Padronização Operacional -->
+        <div class="slide">
+            <div class="text-center" style="margin-bottom: 50px;">
+                <h2>Toolkit de Gestão</h2>
+                <p>Tecnologia desenvolvida internamente para reduzir erros humanos.</p>
+            </div>
+            
+            <div class="grid-3">
+                <!-- Simulador -->
+                <div class="card">
+                    <div class="mockup-container" style="height: 150px; margin-bottom: 20px; border: 1px solid #eee;">
+                         <img src="http://googleusercontent.com/image_collection/image_retrieval/2535245091906603629" alt="Simulador de Crédito" style="object-fit: cover; height: 100%;">
+                    </div>
+                    <h3>Simulador de Crédito</h3>
+                    <p style="font-size: 15px; margin-top: 10px;">Cálculo de taxas blindado. O sistema impede uso de taxas antigas.</p>
+                </div>
+
+                <!-- PDI -->
+                <div class="card">
+                    <div class="mockup-container" style="height: 150px; margin-bottom: 20px; border: 1px solid #eee;">
+                         <img src="http://googleusercontent.com/image_collection/image_retrieval/8074610729029584243" alt="PDI Digital" style="object-fit: cover; height: 100%;">
+                    </div>
+                    <h3>PDI Digital</h3>
+                    <p style="font-size: 15px; margin-top: 10px;">Gestão de carreira. Feedback registrado e acompanhado digitalmente.</p>
+                </div>
+
+                <!-- Minutas -->
+                <div class="card">
+                    <div class="mockup-container" style="height: 150px; margin-bottom: 20px; border: 1px solid #eee;">
+                         <img src="http://googleusercontent.com/image_collection/image_retrieval/6854120669969147317" alt="Gerador de Documentos" style="object-fit: cover; height: 100%;">
+                    </div>
+                    <h3>Gerador de Minutas</h3>
+                    <p style="font-size: 15px; margin-top: 10px;">Padronização jurídica. Nenhum documento sai fora do padrão oficial.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Estratégia de Negócios -->
+        <div class="slide">
+            <div class="grid-2">
+                <div>
+                    <h2>Informação em Receita</h2>
+                    <p class="subtitle">Apoio operacional para vender mais.</p>
+                    
+                    <div class="card" style="border-left: 5px solid var(--secondary);">
+                        <h3 style="color: var(--secondary);">Portal de Bens (BNDU)</h3>
+                        <p style="margin-top: 10px;">Visibilidade total dos bens retomados para toda a força de vendas. Transformamos estoque parado em vitrine ativa.</p>
+                    </div>
+                    <br>
+                    <div class="card">
+                         <h3><i class="fa-solid fa-magnifying-glass" style="color: var(--primary); margin-right: 10px;"></i>Base de Conhecimento</h3>
+                         <p style="margin-top: 10px;">Manuais indexados pela busca inteligente (Cloud Search). Menos tempo procurando, mais tempo vendendo.</p>
+                    </div>
+                </div>
+                <div class="mockup-container">
+                    <!-- Imagem: Portal de Imóveis/Veículos -->
+                     <img src="http://googleusercontent.com/image_collection/image_retrieval/9457403468635405082" alt="Portal BNDU">
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Viabilidade e Cronograma -->
+        <div class="slide">
+            <div class="grid-2">
+                <div>
+                    <h2>Alto Impacto, Baixo Custo</h2>
+                    
+                    <div class="chart-bar-container">
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span>Mercado Externo</span>
+                                <span>R$ 25.000,00</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill fill-red"></div>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span>Custo Interno (Projeto Conecta)</span>
+                                <span style="color: var(--secondary);">R$ 0,00</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill fill-green"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size: 14px; margin-top: 20px; color: #64748b;">*Potencialização do contrato Google atual + Desenvolvimento Interno com IA.</p>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 20px;">Cronograma de Adoção</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">Imediato</div>
+                            <div class="timeline-title">Fase 1: Apoio Operacional</div>
+                            <p style="font-size: 14px;">Migração de Sistemas e BNDU.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">30 Dias</div>
+                            <div class="timeline-title">Fase 2: Gestão</div>
+                            <p style="font-size: 14px;">Lançamento da Academia e Ferramentas de RH.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">60 Dias</div>
+                            <div class="timeline-title">Fase 3: Adoção Total</div>
+                            <p style="font-size: 14px;">Definição como Página Inicial Padrão.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Conclusão -->
+        <div class="slide">
+            <div class="text-center" style="max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 48px; color: var(--primary);">"A tecnologia está pronta. Agora precisamos da liderança."</h1>
+                <div style="width: 150px; height: 6px; background: var(--secondary); margin: 30px auto;"></div>
+                
+                <div class="grid-3" style="margin-top: 60px; text-align: left;">
+                    <div>
+                        <h4 style="color: var(--dark); margin-bottom: 10px;">1. Aprovação</h4>
+                        <p style="font-size: 16px;">Validação do cronograma de lançamento.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--dark); margin-bottom: 10px;">2. Exemplo</h4>
+                        <p style="font-size: 16px;">Diretoria utilizando a Intranet para comunicados oficiais.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--dark); margin-bottom: 10px;">3. KPIs</h4>
+                        <p style="font-size: 16px;">Definição das metas de adoção para 6 meses.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-badge">Projeto Conecta 2024</div>
+        </div>
+
+    </div>
+
+</body>
+</html>
