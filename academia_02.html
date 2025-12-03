@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia Corporativa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animação suave para a barra de progresso */
+        .progress-bar { transition: width 1s ease-in-out; }
+        
+        /* Estilo para esconder scrollbar mas manter funcionalidade */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Efeito de fade in para os cards */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+
+        /* Estilos específicos para Impressão do Relatório */
+        @media print {
+            body * { visibility: hidden; }
+            #reportModal, #reportModal * { visibility: visible; }
+            #reportModal { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: white; padding: 0; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- HEADER & HERO -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 p-2 rounded-lg text-white">
+                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900 leading-tight">Academia Corporativa</h1>
+                        <p class="text-xs text-slate-500">Desenvolvimento e Carreira</p>
+                    </div>
+                </div>
+
+                <!-- Resumo do Usuário e Botão de Relatório -->
+                <div class="flex items-center gap-4">
+                    <div class="text-right hidden sm:block mr-2">
+                        <p class="text-xs font-bold text-slate-800" id="headerUserName">Visitante</p>
+                        <button onclick="logout()" class="text-[10px] text-red-500 hover:underline">Sair / Trocar</button>
+                    </div>
+
+                    <button onclick="openReport()" class="hidden sm:flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors bg-blue-50 px-3 py-2 rounded-lg border border-blue-100">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        Relatório
+                    </button>
+
+                    <div class="flex items-center bg-slate-100 rounded-full px-4 py-2 gap-3">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-xs font-semibold text-slate-700">Progresso Geral</p>
+                            <p class="text-xs text-slate-500" id="globalProgressText">0% Concluído</p>
+                        </div>
+                        <div class="w-10 h-10 relative flex items-center justify-center">
+                            <svg class="w-full h-full transform -rotate-90">
+                                <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" class="text-slate-200" />
+                                <circle id="globalCircle" cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" class="text-blue-600 transition-all duration-1000" stroke-dasharray="100" stroke-dashoffset="100" />
+                            </svg>
+                            <i data-lucide="user" class="w-4 h-4 text-slate-600 absolute"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-8 w-full">
+
+        <!-- NAV DAS ESCOLAS (TABS) -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold text-slate-800 mb-4">Escolha sua Trilha de Aprendizagem</h2>
+            <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-2" id="schoolTabs">
+                <!-- Abas geradas via JS -->
+            </div>
+        </div>
+
+        <!-- AREA DA TRILHA (CONTEÚDO) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Coluna da Esquerda: Detalhes da Escola Selecionada -->
+            <div class="lg:col-span-4 space-y-6">
+                <div id="schoolInfoCard" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-24">
+                    <!-- Conteúdo gerado via JS -->
+                </div>
+            </div>
+
+            <!-- Coluna da Direita: A Trilha (Timeline) -->
+            <div class="lg:col-span-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
+                        Trilha de Conteúdo
+                    </h3>
+                    <span class="text-sm text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm" id="courseCountBadge">
+                        0 módulos
+                    </span>
+                </div>
+
+                <div id="trailContainer" class="relative space-y-0 pl-4 sm:pl-0">
+                    <!-- Linha vertical de conexão -->
+                    <div class="absolute left-8 sm:left-8 top-4 bottom-4 w-0.5 bg-slate-200 -z-10 hidden sm:block"></div>
+                    
+                    <!-- Steps gerados via JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL DE LOGIN (COM AUTOCOMPLETE) -->
+    <div id="loginModal" class="fixed inset-0 z-[60] hidden bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-fade-in relative">
+            
+            <!-- Loading Overlay (se estiver carregando lista) -->
+            <div id="loginLoading" class="absolute inset-0 bg-white/80 z-10 flex items-center justify-center rounded-2xl hidden">
+                <div class="flex flex-col items-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-2"></div>
+                    <p class="text-sm text-slate-500">Carregando lista de colaboradores...</p>
+                </div>
+            </div>
+
+            <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="user-circle" class="w-8 h-8 text-blue-600"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Bem-vindo(a)</h2>
+            <p class="text-slate-500 mb-6">Identifique-se para acessar seus treinamentos.</p>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Seu Nome</label>
+                    <input list="employeesList" id="loginName" required 
+                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" 
+                        placeholder="Digite seu nome..." autocomplete="off">
+                    <!-- Onde a lista mágica acontece -->
+                    <datalist id="employeesList">
+                        <!-- Opções injetadas via JS -->
+                    </datalist>
+                </div>
+                
+                <div class="relative">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">E-mail Vinculado</label>
+                    <input type="email" id="loginEmail" required readonly 
+                        class="w-full px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg text-slate-500 cursor-not-allowed" 
+                        placeholder="Será preenchido automaticamente">
+                    <div class="absolute right-3 top-8 text-green-500 hidden" id="emailCheckIcon">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                    </div>
+                </div>
+
+                <button type="submit" id="loginBtn" disabled class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Acessar
+                </button>
+            </form>
+            <p class="text-xs text-slate-400 mt-4">Caso não encontre seu nome, contate o RH.</p>
+        </div>
+    </div>
+
+    <!-- MODAL DE CURSO -->
+    <div id="courseModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    
+                    <!-- Modal Header -->
+                    <div class="bg-slate-50 px-4 py-3 sm:px-6 flex justify-between items-center border-b border-slate-100">
+                        <h3 class="text-base font-semibold leading-6 text-slate-900" id="modalTitle">Título do Curso</h3>
+                        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Modal Body -->
+                    <div class="px-4 py-6 sm:px-6">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div id="modalIconContainer" class="p-3 rounded-lg bg-blue-100 text-blue-600">
+                                <!-- Icone -->
+                            </div>
+                            <div>
+                                <span id="modalTag" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 mb-2">Tag</span>
+                                <p class="text-sm text-slate-500" id="modalDescription">Descrição completa aqui.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm text-slate-600 mb-6">
+                            <p class="font-medium text-slate-800 mb-1">O que você vai aprender:</p>
+                            <ul class="list-disc list-inside space-y-1 ml-1" id="modalDetails">
+                                <!-- Pontos chave -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
+                        <button type="button" id="btnMarkComplete" onclick="toggleComplete()" 
+                            class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto transition-colors">
+                            Concluir Módulo
+                        </button>
+                        <button type="button" onclick="window.open('#', '_blank')" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto">
+                            Acessar Material <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE RELATÓRIO (PRINT) -->
+    <div id="reportModal" class="fixed inset-0 z-50 hidden bg-white overflow-y-auto">
+        <div class="max-w-3xl mx-auto p-8 sm:p-12">
+            <div class="flex justify-between items-start mb-8 no-print">
+                <button onclick="closeReport()" class="text-slate-500 hover:text-slate-800 flex items-center gap-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar
+                </button>
+                <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Imprimir / Salvar PDF
+                </button>
+            </div>
+
+            <!-- Conteúdo do Relatório -->
+            <div class="border-2 border-slate-800 p-8 rounded-none">
+                <div class="text-center border-b-2 border-slate-800 pb-6 mb-6">
+                    <h1 class="text-3xl font-bold uppercase tracking-wider text-slate-900">Relatório de Progresso</h1>
+                    <p class="text-slate-600 mt-2">Academia Corporativa STU</p>
+                </div>
+
+                <div class="mb-8">
+                    <p class="text-sm text-slate-500 uppercase font-bold mb-1">Colaborador (a)</p>
+                    <div class="border-b border-slate-300 border-dashed pb-1 mb-4">
+                        <p class="text-xl text-slate-800" id="reportUserName">__________________________________________</p>
+                    </div>
+                    <p class="text-xs text-slate-400" id="reportUserEmail">email@email.com</p>
+                    
+                    <div class="grid grid-cols-2 gap-8 mt-6">
+                        <div>
+                            <p class="text-sm text-slate-500 uppercase font-bold mb-1">Data de Emissão</p>
+                            <p class="text-lg text-slate-800" id="reportDate">--/--/----</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-500 uppercase font-bold mb-1">Progresso Total</p>
+                            <p class="text-lg text-slate-800 font-bold" id="reportProgress">0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Módulos Concluídos</h3>
+                <ul id="reportList" class="space-y-3 mb-12">
+                    <!-- Lista gerada via JS -->
+                </ul>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 text-center">
+                    <p class="text-sm text-slate-500 mb-8">Declaro que concluí os treinamentos listados acima.</p>
+                    <div class="w-64 mx-auto border-t border-slate-800 pt-2">
+                        <p class="text-xs text-slate-500 uppercase">Assinatura do Colaborador</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 z-50">
+        <div class="text-green-400">
+            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+        </div>
+        <div>
+            <h4 class="font-medium text-sm">Parabéns!</h4>
+            <p class="text-xs text-slate-300">Módulo concluído com sucesso.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-8 mt-auto no-print">
+        <div class="max-w-5xl mx-auto px-6 text-center text-slate-400 text-sm">
+            <p>&copy; 2024 Universidade Corporativa. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- DADOS E LÓGICA -->
+    <script>
+        // --- CONFIGURAÇÃO ---
+        // COLE SUA URL DO GOOGLE APP SCRIPT AQUI QUANDO TIVER O SCRIPT PUBLICADO
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxutHOk3amslxI6tfAzJ8-0SvjkmhGttwNsZ7Jc-I9zhRT7_5TYLcUNHDBIrm5TPJ0O/exec"; 
+
+        // MOCK DE COLABORADORES (Para testar enquanto não conecta com a planilha real)
+        const MOCK_EMPLOYEES = [
+            { name: "Ana Paula Silva", email: "ana.silva@empresa.com.br" },
+            { name: "Bruno Costa", email: "bruno.costa@empresa.com.br" },
+            { name: "Carlos Eduardo Oliveira", email: "carlos.oliveira@empresa.com.br" },
+            { name: "Fernanda Souza", email: "fernanda.souza@empresa.com.br" },
+            { name: "João Pedro Santos", email: "joao.santos@empresa.com.br" },
+            { name: "Mariana Lima", email: "mariana.lima@empresa.com.br" }
+        ];
+
+        // --- 1. BASE DE DADOS (CURSOS) ---
+        const schoolsData = [
+            {
+                id: 'negocios',
+                title: 'Escola de Negócios e Soluções',
+                description: 'Desenvolvendo a consultoria financeira e a geração de resultados sustentáveis.',
+                icon: 'briefcase',
+                color: 'blue',
+                courses: [
+                    { id: 'n1', title: 'Vendas Consultivas e Negociação', type: 'Presencial/Video', time: '4h', desc: 'Identificação de necessidades, argumentação e fechamento focado em relacionamento.', tags: ['Vendas'] },
+                    { id: 'n2', title: 'Portfólio de Produtos', type: 'E-learning', time: '2h', desc: 'Domine Seguros, Consórcios e Cartões. Diferenciais e benefícios exclusivos da cooperativa.', tags: ['Produtos'] },
+                    { id: 'n3', title: 'Investimentos e Renda Fixa', type: 'Video', time: '1h 30m', desc: 'RDC, LCA e comparativos com mercado. Argumentação sobre segurança e solidez.', tags: ['Investimentos'] },
+                    { id: 'n4', title: 'Crédito Rural e Agronegócio', type: 'Webinar', time: '3h', desc: 'Plano Safra, linhas de custeio/investimento, garantias e sazonalidade.', tags: ['Agro'] },
+                    { id: 'n5', title: 'Atendimento de Excelência (NPS)', type: 'Workshop', time: '2h', desc: 'Técnicas de encantamento, escuta ativa e etiqueta profissional.', tags: ['Atendimento'] },
+                    { id: 'n6', title: 'Open Finance e Pix', type: 'Leitura', time: '45m', desc: 'Ecossistema financeiro digital e oportunidades de crédito via compartilhamento de dados.', tags: ['Inovação'] }
+                ]
+            },
+            {
+                id: 'operacional',
+                title: 'Escola Operacional e de Riscos',
+                description: 'Garantindo a segurança, a eficiência e o cumprimento das normas.',
+                icon: 'shield-check',
+                color: 'rose',
+                courses: [
+                    { id: 'o1', title: 'Rotinas de Caixa e Tesouraria', type: 'Prático', time: '6h', desc: 'Manuseio de numerário, notas falsas, compensação e fechamento de caixa.', tags: ['Caixa'] },
+                    { id: 'o2', title: 'Cadastro e KYC', type: 'Sistema', time: '2h', desc: 'Cadastros completos, verificação de documentos e blindagem contra fraudes.', tags: ['Cadastro'] },
+                    { id: 'o3', title: 'Análise de Crédito e Risco', type: 'Video', time: '3h', desc: 'Interpretação de Balanços, IR e SCR para cálculo de capacidade de pagamento.', tags: ['Crédito'] },
+                    { id: 'o4', title: 'Cobrança e Recuperação', type: 'Workshop', time: '2h', desc: 'Estratégias de negociação assertiva e respeitosa para recuperação de ativos.', tags: ['Cobrança'] },
+                    { id: 'o5', title: 'PLD/FT (Obrigatório)', type: 'Curso Online', time: '1h', desc: 'Identificação de operações suspeitas e comunicação ao COAF.', tags: ['Regulatório'] },
+                    { id: 'o6', title: 'LGPD e Sigilo Bancário', type: 'Leitura', time: '30m', desc: 'Privacidade de dados, compartilhamento de informações e proteção legal.', tags: ['Legal'] },
+                    { id: 'o7', title: 'Matemática Financeira (HP12c)', type: 'Curso', time: '4h', desc: 'Cálculo de juros simples, compostos e amortização na HP12c.', tags: ['Técnico'] }
+                ]
+            },
+            {
+                id: 'cultura',
+                title: 'Escola de Cultura e Liderança',
+                description: 'Fortalecendo nosso propósito cooperativista e desenvolvendo pessoas.',
+                icon: 'users',
+                color: 'emerald',
+                courses: [
+                    { id: 'c1', title: 'O Jeito de Ser Cooperativo', type: 'Imersão', time: '4h', desc: 'História, os 7 princípios do cooperativismo e impacto na comunidade.', tags: ['Cultura'] },
+                    { id: 'c2', title: 'Liderança e Gestão de Equipes', type: 'Mentoria', time: 'N/A', desc: 'Delegação, feedback, gestão de conflitos e engajamento.', tags: ['Liderança'] },
+                    { id: 'c3', title: 'Inteligência Emocional', type: 'Workshop', time: '2h', desc: 'Gestão de emoções, pressão e resiliência no atendimento.', tags: ['Soft Skills'] },
+                    { id: 'c4', title: 'Comunicação Não-Violenta', type: 'Video', time: '1h', desc: 'Clareza, empatia e redução de ruídos na comunicação interna.', tags: ['Soft Skills'] },
+                    { id: 'c5', title: 'Ética e Conduta Profissional', type: 'Leitura', time: '30m', desc: 'Postura, conflito de interesses e código de ética.', tags: ['Compliance'] },
+                    { id: 'c6', title: 'Gestão do Tempo', type: 'E-learning', time: '1h', desc: 'Priorização, matriz de urgência e produtividade.', tags: ['Produtividade'] }
+                ]
+            },
+            {
+                id: 'inovacao',
+                title: 'Escola de Inovação e Técnica',
+                description: 'Dominando as ferramentas digitais para trabalhar melhor.',
+                icon: 'cpu',
+                color: 'violet',
+                courses: [
+                    { id: 'i1', title: 'Dominando o Google Workspace', type: 'Prático', time: '2h', desc: 'Dicas avançadas de Gmail, Agenda, Drive e Planilhas.', tags: ['Ferramentas'] },
+                    { id: 'i2', title: 'Preparatório CPA-10 e CPA-20', type: 'Trilha Longa', time: '20h', desc: 'Estudos e simulados para certificação ANBIMA.', tags: ['Certificação'] },
+                    { id: 'i3', title: 'Onboarding: Bem-vindo', type: 'Trilha', time: '1 Semana', desc: 'Integração ao time, sistemas e primeiros passos.', tags: ['Início'] }
+                ]
+            }
+        ];
+
+        // --- SERVICE LAYER (SERVIÇO DE DADOS HÍBRIDO) ---
+        const DataService = {
+            STORAGE_PROGRESS_KEY: 'stu_completed_courses',
+            STORAGE_USER_KEY: 'stu_user_data',
+            
+            getUser: function() {
+                const data = localStorage.getItem(this.STORAGE_USER_KEY);
+                return data ? JSON.parse(data) : null;
+            },
+
+            saveUser: function(name, email) {
+                const user = { name, email };
+                localStorage.setItem(this.STORAGE_USER_KEY, JSON.stringify(user));
+                return user;
+            },
+
+            clearUser: function() {
+                localStorage.removeItem(this.STORAGE_USER_KEY);
+                localStorage.removeItem(this.STORAGE_PROGRESS_KEY);
+                location.reload();
+            },
+
+            // NOVA FUNÇÃO: Busca lista de colaboradores
+            fetchEmployees: async function() {
+                // 1. Se tiver URL da API, tenta buscar lá
+                if (GOOGLE_SCRIPT_URL) {
+                    try {
+                        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getEmployees`);
+                        const data = await response.json();
+                        // Espera formato [{name: "Nome", email: "email"}, ...]
+                        return data;
+                    } catch (e) {
+                        console.error("Erro ao buscar colaboradores da API, usando mock.", e);
+                    }
+                }
+                
+                // 2. Fallback para Mock Local (Simulação)
+                return new Promise(resolve => {
+                    setTimeout(() => resolve(MOCK_EMPLOYEES), 800); // Simula delay de rede
+                });
+            },
+
+            loadProgress: async function(email) {
+                let localData = JSON.parse(localStorage.getItem(this.STORAGE_PROGRESS_KEY) || "[]");
+                
+                if (GOOGLE_SCRIPT_URL && email) {
+                    try {
+                        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getProgress&email=${email}`);
+                        const apiData = await response.json();
+                        const merged = [...new Set([...localData, ...apiData])];
+                        
+                        if (merged.length !== localData.length) {
+                            localStorage.setItem(this.STORAGE_PROGRESS_KEY, JSON.stringify(merged));
+                            return merged;
+                        }
+                    } catch (e) {
+                        console.log('Modo Offline: Não foi possível conectar à planilha.', e);
+                    }
+                }
+                return localData;
+            },
+
+            saveProgress: function(completedCoursesIds, user) {
+                localStorage.setItem(this.STORAGE_PROGRESS_KEY, JSON.stringify(completedCoursesIds));
+
+                if (GOOGLE_SCRIPT_URL && user) {
+                    const payload = {
+                        action: 'saveProgress',
+                        email: user.email,
+                        name: user.name,
+                        completedCourses: completedCoursesIds
+                    };
+                    
+                    fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    }).catch(e => console.error("Erro ao salvar na nuvem", e));
+                }
+            }
+        };
+
+        // --- 2. ESTADO DA APLICAÇÃO ---
+        let state = {
+            activeSchoolId: 'negocios',
+            completedCourses: [],
+            currentUser: null,
+            currentModalCourseId: null,
+            employeesList: [] // Lista carregada
+        };
+
+        // --- 3. ELEMENTOS DOM ---
+        const schoolTabsEl = document.getElementById('schoolTabs');
+        const schoolInfoCardEl = document.getElementById('schoolInfoCard');
+        const trailContainerEl = document.getElementById('trailContainer');
+        const courseCountBadgeEl = document.getElementById('courseCountBadge');
+        const modalEl = document.getElementById('courseModal');
+        const reportModalEl = document.getElementById('reportModal');
+        const loginModalEl = document.getElementById('loginModal');
+        const headerUserNameEl = document.getElementById('headerUserName');
+        const loginNameInput = document.getElementById('loginName');
+        const loginEmailInput = document.getElementById('loginEmail');
+        const employeesDatalist = document.getElementById('employeesList');
+        const loginBtn = document.getElementById('loginBtn');
+        const emailCheckIcon = document.getElementById('emailCheckIcon');
+        const loginLoading = document.getElementById('loginLoading');
+        
+        // --- 4. FUNÇÕES DE INICIALIZAÇÃO E RENDERIZAÇÃO ---
+
+        async function init() {
+            // Verifica Login
+            const user = DataService.getUser();
+            
+            if (user) {
+                state.currentUser = user;
+                headerUserNameEl.textContent = user.name;
+                state.completedCourses = await DataService.loadProgress(user.email);
+            } else {
+                // Se não tem usuário, prepara e mostra login
+                prepareLoginModal();
+            }
+
+            renderTabs();
+            renderActiveSchool();
+            updateGlobalProgress();
+            lucide.createIcons();
+        }
+
+        // --- 5. LÓGICA DE LOGIN COM AUTOCOMPLETE ---
+        
+        async function prepareLoginModal() {
+            loginModalEl.classList.remove('hidden');
+            loginLoading.classList.remove('hidden'); // Mostra loading
+
+            // Busca colaboradores
+            state.employeesList = await DataService.fetchEmployees();
+            
+            // Popula Datalist
+            employeesDatalist.innerHTML = '';
+            state.employeesList.forEach(emp => {
+                const option = document.createElement('option');
+                option.value = emp.name;
+                employeesDatalist.appendChild(option);
+            });
+
+            loginLoading.classList.add('hidden'); // Esconde loading
+        }
+
+        // Monitora digitação para preencher email automaticamente
+        loginNameInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            const found = state.employeesList.find(emp => emp.name === val);
+
+            if (found) {
+                loginEmailInput.value = found.email;
+                loginBtn.disabled = false;
+                emailCheckIcon.classList.remove('hidden');
+                loginNameInput.classList.add('border-green-500', 'ring-1', 'ring-green-500');
+            } else {
+                loginEmailInput.value = '';
+                loginBtn.disabled = true;
+                emailCheckIcon.classList.add('hidden');
+                loginNameInput.classList.remove('border-green-500', 'ring-1', 'ring-green-500');
+            }
+        });
+
+        window.handleLogin = (e) => {
+            e.preventDefault();
+            const name = loginNameInput.value;
+            const email = loginEmailInput.value;
+            
+            if(name && email) {
+                state.currentUser = DataService.saveUser(name, email);
+                loginModalEl.classList.add('hidden');
+                headerUserNameEl.textContent = name;
+                init();
+            }
+        }
+
+        window.logout = () => {
+            if(confirm("Deseja sair e limpar seus dados deste dispositivo?")) {
+                DataService.clearUser();
+            }
+        }
+
+        // --- 6. RENDERIZAÇÃO (TABS, ESCOLA, TRILHA) ---
+        
+        function renderTabs() {
+            schoolTabsEl.innerHTML = schoolsData.map(school => {
+                const isActive = school.id === state.activeSchoolId;
+                const baseClass = "flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all whitespace-nowrap border";
+                const activeClass = `bg-${school.color}-600 text-white border-${school.color}-600 shadow-md transform scale-105`;
+                const inactiveClass = "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300";
+
+                return `
+                    <button onclick="switchSchool('${school.id}')" class="${baseClass} ${isActive ? activeClass : inactiveClass}">
+                        <i data-lucide="${school.icon}" class="w-4 h-4"></i>
+                        ${school.title.split(' e ')[0]} 
+                    </button>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function renderActiveSchool() {
+            const school = schoolsData.find(s => s.id === state.activeSchoolId);
+            
+            // Info Card
+            const completedInSchool = school.courses.filter(c => state.completedCourses.includes(c.id)).length;
+            const progressPercent = Math.round((completedInSchool / school.courses.length) * 100);
+
+            schoolInfoCardEl.innerHTML = `
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="p-3 rounded-lg bg-${school.color}-100 text-${school.color}-700">
+                        <i data-lucide="${school.icon}" class="w-8 h-8"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800 leading-tight">${school.title}</h2>
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">${school.description}</p>
+                
+                <div class="mt-6 pt-6 border-t border-slate-100">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="font-semibold text-slate-700">Seu Progresso nesta trilha</span>
+                        <span class="text-${school.color}-600 font-bold">${progressPercent}%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                        <div class="bg-${school.color}-600 h-2.5 rounded-full progress-bar" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">${completedInSchool} de ${school.courses.length} módulos finalizados</p>
+                </div>
+            `;
+
+            courseCountBadgeEl.textContent = `${school.courses.length} etapas`;
+
+            // Timeline
+            trailContainerEl.innerHTML = school.courses.map((course, index) => {
+                const isCompleted = state.completedCourses.includes(course.id);
+                const iconColor = isCompleted ? `bg-green-100 text-green-600 border-green-200` : `bg-white text-slate-400 border-slate-200 group-hover:border-${school.color}-300 group-hover:text-${school.color}-500`;
+                const checkIcon = isCompleted ? 'check' : (index + 1);
+
+                return `
+                    <div class="relative flex items-start sm:items-center gap-4 mb-8 group animate-fade-in" style="animation-delay: ${index * 100}ms" onclick="openModal('${course.id}')">
+                         <div class="absolute left-4 top-10 bottom-[-2rem] w-0.5 bg-slate-200 sm:hidden ${index === school.courses.length -1 ? 'hidden' : ''}"></div>
+
+                        <div class="z-10 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 ${iconColor} flex items-center justify-center font-bold text-sm transition-colors duration-300 bg-white cursor-pointer shadow-sm">
+                            ${isCompleted ? '<i data-lucide="check" class="w-4 h-4 sm:w-5 sm:h-5"></i>' : checkIcon}
+                        </div>
+
+                        <div class="flex-grow cursor-pointer transform transition-all hover:scale-[1.01]">
+                            <div class="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-${school.color}-200 transition-all">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600 uppercase tracking-wide">
+                                            ${course.type}
+                                        </span>
+                                        ${isCompleted ? '<span class="text-xs font-medium text-green-600 flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Concluído</span>' : ''}
+                                    </div>
+                                    <span class="text-xs text-slate-400 flex items-center gap-1">
+                                        <i data-lucide="clock" class="w-3 h-3"></i> ${course.time}
+                                    </span>
+                                </div>
+                                <h4 class="text-base sm:text-lg font-bold text-slate-800 group-hover:text-${school.color}-700 transition-colors mb-1">
+                                    ${course.title}
+                                </h4>
+                                <p class="text-sm text-slate-500 line-clamp-2">${course.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function updateGlobalProgress() {
+            const totalCourses = schoolsData.reduce((acc, school) => acc + school.courses.length, 0);
+            const totalCompleted = state.completedCourses.length;
+            const percentage = Math.round((totalCompleted / totalCourses) * 100);
+            
+            document.getElementById('globalProgressText').textContent = `${percentage}% Concluído`;
+            
+            const circle = document.getElementById('globalCircle');
+            const circumference = 2 * Math.PI * 16; 
+            const offset = circumference - (percentage / 100) * circumference;
+            
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        // --- 7. RELATÓRIO ---
+        window.openReport = () => {
+            const today = new Date().toLocaleDateString('pt-BR');
+            document.getElementById('reportDate').textContent = today;
+            
+            // Dados do usuário
+            document.getElementById('reportUserName').textContent = state.currentUser ? state.currentUser.name : "___________________";
+            document.getElementById('reportUserEmail').textContent = state.currentUser ? state.currentUser.email : "";
+
+            const totalCourses = schoolsData.reduce((acc, school) => acc + school.courses.length, 0);
+            const totalCompleted = state.completedCourses.length;
+            const percentage = Math.round((totalCompleted / totalCourses) * 100);
+            
+            document.getElementById('reportProgress').textContent = `${percentage}% (${totalCompleted}/${totalCourses})`;
+
+            const listEl = document.getElementById('reportList');
+            listEl.innerHTML = '';
+
+            if(state.completedCourses.length === 0) {
+                listEl.innerHTML = '<li class="text-slate-500 italic">Nenhum módulo concluído ainda.</li>';
+            } else {
+                schoolsData.forEach(school => {
+                    const schoolCompleted = school.courses.filter(c => state.completedCourses.includes(c.id));
+                    
+                    if(schoolCompleted.length > 0) {
+                        const header = document.createElement('li');
+                        header.className = "font-bold text-sm text-slate-700 mt-4 uppercase bg-slate-100 p-2 rounded";
+                        header.textContent = school.title;
+                        listEl.appendChild(header);
+
+                        schoolCompleted.forEach(c => {
+                            const li = document.createElement('li');
+                            li.className = "flex justify-between text-sm border-b border-slate-100 py-2 ml-2";
+                            li.innerHTML = `<span>${c.title}</span> <span class="text-green-600 font-medium">Concluído</span>`;
+                            listEl.appendChild(li);
+                        });
+                    }
+                });
+            }
+
+            reportModalEl.classList.remove('hidden');
+        };
+
+        window.closeReport = () => {
+            reportModalEl.classList.add('hidden');
+        };
+
+        // --- 8. AÇÕES ---
+        window.switchSchool = (id) => {
+            state.activeSchoolId = id;
+            renderTabs();
+            renderActiveSchool();
+        };
+
+        window.openModal = (courseId) => {
+            const school = schoolsData.find(s => s.id === state.activeSchoolId);
+            const course = school.courses.find(c => c.id === courseId);
+            if(!course) return;
+
+            state.currentModalCourseId = courseId;
+            document.getElementById('modalTitle').textContent = course.title;
+            document.getElementById('modalDescription').textContent = course.desc;
+            document.getElementById('modalTag').textContent = course.tags[0];
+            
+            const modalIconContainer = document.getElementById('modalIconContainer');
+            modalIconContainer.className = `p-3 rounded-lg bg-${school.color}-100 text-${school.color}-600`;
+            modalIconContainer.innerHTML = `<i data-lucide="${school.icon}" class="w-6 h-6"></i>`;
+
+            const detailsList = document.getElementById('modalDetails');
+            detailsList.innerHTML = `
+                <li>Entendimento aprofundado sobre ${course.title}</li>
+                <li>Aplicação prática dos conceitos de ${course.tags[0]}</li>
+                <li>Avaliação de conhecimento ao final do módulo</li>
+            `;
+
+            updateModalButtonState();
+            modalEl.classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        window.closeModal = () => {
+            modalEl.classList.add('hidden');
+            state.currentModalCourseId = null;
+        };
+
+        window.toggleComplete = () => {
+            const id = state.currentModalCourseId;
+            if(!id) return;
+
+            const index = state.completedCourses.indexOf(id);
+            if (index > -1) {
+                state.completedCourses.splice(index, 1);
+            } else {
+                state.completedCourses.push(id);
+                showToast();
+                closeModal();
+            }
+
+            // Salva Local + Nuvem
+            DataService.saveProgress(state.completedCourses, state.currentUser);
+
+            updateModalButtonState();
+            renderActiveSchool();
+            updateGlobalProgress();
+        };
+
+        function updateModalButtonState() {
+            const btn = document.getElementById('btnMarkComplete');
+            const isCompleted = state.completedCourses.includes(state.currentModalCourseId);
+            const school = schoolsData.find(s => s.id === state.activeSchoolId);
+
+            if(isCompleted) {
+                btn.textContent = "Desmarcar Conclusão";
+                btn.className = "inline-flex w-full justify-center rounded-md bg-white border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 sm:ml-3 sm:w-auto transition-colors";
+            } else {
+                btn.textContent = "Marcar como Concluído";
+                btn.className = `inline-flex w-full justify-center rounded-md bg-${school.color}-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-${school.color}-500 sm:ml-3 sm:w-auto transition-colors`;
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Start
+        init();
+
+    </script>
+</body>
+</html>

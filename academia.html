@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia Corporativa STU</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animação suave para a barra de progresso */
+        .progress-bar { transition: width 1s ease-in-out; }
+        
+        /* Estilo para esconder scrollbar mas manter funcionalidade */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Efeito de fade in para os cards */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- HEADER & HERO -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 p-2 rounded-lg text-white">
+                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900 leading-tight">Academia Corporativa</h1>
+                        <p class="text-xs text-slate-500">Desenvolvimento e Carreira</p>
+                    </div>
+                </div>
+
+                <!-- Resumo do Usuário -->
+                <div class="flex items-center bg-slate-100 rounded-full px-4 py-2 gap-3">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-xs font-semibold text-slate-700">Progresso Geral</p>
+                        <p class="text-xs text-slate-500" id="globalProgressText">0% Concluído</p>
+                    </div>
+                    <div class="w-10 h-10 relative flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90">
+                            <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" class="text-slate-200" />
+                            <circle id="globalCircle" cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" class="text-blue-600 transition-all duration-1000" stroke-dasharray="100" stroke-dashoffset="100" />
+                        </svg>
+                        <i data-lucide="user" class="w-4 h-4 text-slate-600 absolute"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-8 w-full">
+
+        <!-- NAV DAS ESCOLAS (TABS) -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold text-slate-800 mb-4">Escolha sua Trilha de Aprendizagem</h2>
+            <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-2" id="schoolTabs">
+                <!-- Abas geradas via JS -->
+            </div>
+        </div>
+
+        <!-- AREA DA TRILHA (CONTEÚDO) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Coluna da Esquerda: Detalhes da Escola Selecionada -->
+            <div class="lg:col-span-4 space-y-6">
+                <div id="schoolInfoCard" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-24">
+                    <!-- Conteúdo gerado via JS -->
+                </div>
+            </div>
+
+            <!-- Coluna da Direita: A Trilha (Timeline) -->
+            <div class="lg:col-span-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
+                        Trilha de Conteúdo
+                    </h3>
+                    <span class="text-sm text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm" id="courseCountBadge">
+                        0 módulos
+                    </span>
+                </div>
+
+                <div id="trailContainer" class="relative space-y-0 pl-4 sm:pl-0">
+                    <!-- Linha vertical de conexão -->
+                    <div class="absolute left-8 sm:left-8 top-4 bottom-4 w-0.5 bg-slate-200 -z-10 hidden sm:block"></div>
+                    
+                    <!-- Steps gerados via JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL DE CURSO -->
+    <div id="courseModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    
+                    <!-- Modal Header -->
+                    <div class="bg-slate-50 px-4 py-3 sm:px-6 flex justify-between items-center border-b border-slate-100">
+                        <h3 class="text-base font-semibold leading-6 text-slate-900" id="modalTitle">Título do Curso</h3>
+                        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Modal Body -->
+                    <div class="px-4 py-6 sm:px-6">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div id="modalIconContainer" class="p-3 rounded-lg bg-blue-100 text-blue-600">
+                                <!-- Icone -->
+                            </div>
+                            <div>
+                                <span id="modalTag" class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 mb-2">Tag</span>
+                                <p class="text-sm text-slate-500" id="modalDescription">Descrição completa aqui.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm text-slate-600 mb-6">
+                            <p class="font-medium text-slate-800 mb-1">O que você vai aprender:</p>
+                            <ul class="list-disc list-inside space-y-1 ml-1" id="modalDetails">
+                                <!-- Pontos chave -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
+                        <button type="button" id="btnMarkComplete" onclick="toggleComplete()" 
+                            class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto transition-colors">
+                            Concluir Módulo
+                        </button>
+                        <button type="button" onclick="window.open('#', '_blank')" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto">
+                            Acessar Material <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 z-50">
+        <div class="text-green-400">
+            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+        </div>
+        <div>
+            <h4 class="font-medium text-sm">Parabéns!</h4>
+            <p class="text-xs text-slate-300">Módulo concluído com sucesso.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
+        <div class="max-w-5xl mx-auto px-6 text-center text-slate-400 text-sm">
+            <p>&copy; 2024 Universidade Corporativa. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- DADOS E LÓGICA -->
+    <script>
+        // --- 1. BASE DE DADOS ---
+        const schoolsData = [
+            {
+                id: 'negocios',
+                title: 'Escola de Negócios e Soluções',
+                description: 'Desenvolvendo a consultoria financeira e a geração de resultados sustentáveis.',
+                icon: 'briefcase',
+                color: 'blue',
+                courses: [
+                    { id: 'n1', title: 'Vendas Consultivas e Negociação', type: 'Presencial/Video', time: '4h', desc: 'Identificação de necessidades, argumentação e fechamento focado em relacionamento.', tags: ['Vendas'] },
+                    { id: 'n2', title: 'Portfólio de Produtos', type: 'E-learning', time: '2h', desc: 'Domine Seguros, Consórcios e Cartões. Diferenciais e benefícios exclusivos da cooperativa.', tags: ['Produtos'] },
+                    { id: 'n3', title: 'Investimentos e Renda Fixa', type: 'Video', time: '1h 30m', desc: 'RDC, LCA e comparativos com mercado. Argumentação sobre segurança e solidez.', tags: ['Investimentos'] },
+                    { id: 'n4', title: 'Crédito Rural e Agronegócio', type: 'Webinar', time: '3h', desc: 'Plano Safra, linhas de custeio/investimento, garantias e sazonalidade.', tags: ['Agro'] },
+                    { id: 'n5', title: 'Atendimento de Excelência (NPS)', type: 'Workshop', time: '2h', desc: 'Técnicas de encantamento, escuta ativa e etiqueta profissional.', tags: ['Atendimento'] },
+                    { id: 'n6', title: 'Open Finance e Pix', type: 'Leitura', time: '45m', desc: 'Ecossistema financeiro digital e oportunidades de crédito via compartilhamento de dados.', tags: ['Inovação'] }
+                ]
+            },
+            {
+                id: 'operacional',
+                title: 'Escola Operacional e de Riscos',
+                description: 'Garantindo a segurança, a eficiência e o cumprimento das normas.',
+                icon: 'shield-check',
+                color: 'rose',
+                courses: [
+                    { id: 'o1', title: 'Rotinas de Caixa e Tesouraria', type: 'Prático', time: '6h', desc: 'Manuseio de numerário, notas falsas, compensação e fechamento de caixa.', tags: ['Caixa'] },
+                    { id: 'o2', title: 'Cadastro e KYC', type: 'Sistema', time: '2h', desc: 'Cadastros completos, verificação de documentos e blindagem contra fraudes.', tags: ['Cadastro'] },
+                    { id: 'o3', title: 'Análise de Crédito e Risco', type: 'Video', time: '3h', desc: 'Interpretação de Balanços, IR e SCR para cálculo de capacidade de pagamento.', tags: ['Crédito'] },
+                    { id: 'o4', title: 'Cobrança e Recuperação', type: 'Workshop', time: '2h', desc: 'Estratégias de negociação assertiva e respeitosa para recuperação de ativos.', tags: ['Cobrança'] },
+                    { id: 'o5', title: 'PLD/FT (Obrigatório)', type: 'Curso Online', time: '1h', desc: 'Identificação de operações suspeitas e comunicação ao COAF.', tags: ['Regulatório'] },
+                    { id: 'o6', title: 'LGPD e Sigilo Bancário', type: 'Leitura', time: '30m', desc: 'Privacidade de dados, compartilhamento de informações e proteção legal.', tags: ['Legal'] },
+                    { id: 'o7', title: 'Matemática Financeira (HP12c)', type: 'Curso', time: '4h', desc: 'Cálculo de juros simples, compostos e amortização na HP12c.', tags: ['Técnico'] }
+                ]
+            },
+            {
+                id: 'cultura',
+                title: 'Escola de Cultura e Liderança',
+                description: 'Fortalecendo nosso propósito cooperativista e desenvolvendo pessoas.',
+                icon: 'users',
+                color: 'emerald',
+                courses: [
+                    { id: 'c1', title: 'O Jeito de Ser Cooperativo', type: 'Imersão', time: '4h', desc: 'História, os 7 princípios do cooperativismo e impacto na comunidade.', tags: ['Cultura'] },
+                    { id: 'c2', title: 'Liderança e Gestão de Equipes', type: 'Mentoria', time: 'N/A', desc: 'Delegação, feedback, gestão de conflitos e engajamento.', tags: ['Liderança'] },
+                    { id: 'c3', title: 'Inteligência Emocional', type: 'Workshop', time: '2h', desc: 'Gestão de emoções, pressão e resiliência no atendimento.', tags: ['Soft Skills'] },
+                    { id: 'c4', title: 'Comunicação Não-Violenta', type: 'Video', time: '1h', desc: 'Clareza, empatia e redução de ruídos na comunicação interna.', tags: ['Soft Skills'] },
+                    { id: 'c5', title: 'Ética e Conduta Profissional', type: 'Leitura', time: '30m', desc: 'Postura, conflito de interesses e código de ética.', tags: ['Compliance'] },
+                    { id: 'c6', title: 'Gestão do Tempo', type: 'E-learning', time: '1h', desc: 'Priorização, matriz de urgência e produtividade.', tags: ['Produtividade'] }
+                ]
+            },
+            {
+                id: 'inovacao',
+                title: 'Escola de Inovação e Técnica',
+                description: 'Dominando as ferramentas digitais para trabalhar melhor.',
+                icon: 'cpu',
+                color: 'violet',
+                courses: [
+                    { id: 'i1', title: 'Dominando o Google Workspace', type: 'Prático', time: '2h', desc: 'Dicas avançadas de Gmail, Agenda, Drive e Planilhas.', tags: ['Ferramentas'] },
+                    { id: 'i2', title: 'Preparatório CPA-10 e CPA-20', type: 'Trilha Longa', time: '20h', desc: 'Estudos e simulados para certificação ANBIMA.', tags: ['Certificação'] },
+                    { id: 'i3', title: 'Onboarding: Bem-vindo', type: 'Trilha', time: '1 Semana', desc: 'Integração ao time, sistemas e primeiros passos.', tags: ['Início'] }
+                ]
+            }
+        ];
+
+        // --- 2. ESTADO DA APLICAÇÃO ---
+        let state = {
+            activeSchoolId: 'negocios',
+            completedCourses: JSON.parse(localStorage.getItem('stu_completed_courses')) || [],
+            currentModalCourseId: null
+        };
+
+        // --- 3. ELEMENTOS DOM ---
+        const schoolTabsEl = document.getElementById('schoolTabs');
+        const schoolInfoCardEl = document.getElementById('schoolInfoCard');
+        const trailContainerEl = document.getElementById('trailContainer');
+        const courseCountBadgeEl = document.getElementById('courseCountBadge');
+        const modalEl = document.getElementById('courseModal');
+        
+        // --- 4. FUNÇÕES DE RENDERIZAÇÃO ---
+
+        function init() {
+            renderTabs();
+            renderActiveSchool();
+            updateGlobalProgress();
+            lucide.createIcons();
+        }
+
+        // Renderiza as abas superiores
+        function renderTabs() {
+            schoolTabsEl.innerHTML = schoolsData.map(school => {
+                const isActive = school.id === state.activeSchoolId;
+                const baseClass = "flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all whitespace-nowrap border";
+                const activeClass = `bg-${school.color}-600 text-white border-${school.color}-600 shadow-md transform scale-105`;
+                const inactiveClass = "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300";
+
+                return `
+                    <button onclick="switchSchool('${school.id}')" class="${baseClass} ${isActive ? activeClass : inactiveClass}">
+                        <i data-lucide="${school.icon}" class="w-4 h-4"></i>
+                        ${school.title.split(' e ')[0]} 
+                    </button>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        // Renderiza todo o conteúdo da escola ativa
+        function renderActiveSchool() {
+            const school = schoolsData.find(s => s.id === state.activeSchoolId);
+            
+            // 1. Info Card (Esquerda)
+            const completedInSchool = school.courses.filter(c => state.completedCourses.includes(c.id)).length;
+            const progressPercent = Math.round((completedInSchool / school.courses.length) * 100);
+
+            schoolInfoCardEl.innerHTML = `
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="p-3 rounded-lg bg-${school.color}-100 text-${school.color}-700">
+                        <i data-lucide="${school.icon}" class="w-8 h-8"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800 leading-tight">${school.title}</h2>
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">${school.description}</p>
+                
+                <div class="mt-6 pt-6 border-t border-slate-100">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="font-semibold text-slate-700">Seu Progresso nesta trilha</span>
+                        <span class="text-${school.color}-600 font-bold">${progressPercent}%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                        <div class="bg-${school.color}-600 h-2.5 rounded-full progress-bar" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">${completedInSchool} de ${school.courses.length} módulos finalizados</p>
+                </div>
+            `;
+
+            // 2. Badge Contagem
+            courseCountBadgeEl.textContent = `${school.courses.length} etapas`;
+
+            // 3. A Trilha (Direita)
+            trailContainerEl.innerHTML = school.courses.map((course, index) => {
+                const isCompleted = state.completedCourses.includes(course.id);
+                // Lógica de Bloqueio: O próximo só libera se o anterior estiver feito (opcional, deixei tudo liberado para demonstração, mas visualmente sugerindo ordem)
+                const isLocked = false; 
+                
+                const iconColor = isCompleted ? `bg-green-100 text-green-600 border-green-200` : `bg-white text-slate-400 border-slate-200 group-hover:border-${school.color}-300 group-hover:text-${school.color}-500`;
+                const checkIcon = isCompleted ? 'check' : (index + 1);
+
+                return `
+                    <div class="relative flex items-start sm:items-center gap-4 mb-8 group animate-fade-in" style="animation-delay: ${index * 100}ms" onclick="openModal('${course.id}')">
+                        <!-- Conector Mobile (Visible only on mobile) -->
+                         <div class="absolute left-4 top-10 bottom-[-2rem] w-0.5 bg-slate-200 sm:hidden ${index === school.courses.length -1 ? 'hidden' : ''}"></div>
+
+                        <!-- Marcador Circular -->
+                        <div class="z-10 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 ${iconColor} flex items-center justify-center font-bold text-sm transition-colors duration-300 bg-white cursor-pointer shadow-sm">
+                            ${isCompleted ? '<i data-lucide="check" class="w-4 h-4 sm:w-5 sm:h-5"></i>' : checkIcon}
+                        </div>
+
+                        <!-- Card de Conteúdo -->
+                        <div class="flex-grow cursor-pointer transform transition-all hover:scale-[1.01]">
+                            <div class="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-${school.color}-200 transition-all">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600 uppercase tracking-wide">
+                                            ${course.type}
+                                        </span>
+                                        ${isCompleted ? '<span class="text-xs font-medium text-green-600 flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Concluído</span>' : ''}
+                                    </div>
+                                    <span class="text-xs text-slate-400 flex items-center gap-1">
+                                        <i data-lucide="clock" class="w-3 h-3"></i> ${course.time}
+                                    </span>
+                                </div>
+                                <h4 class="text-base sm:text-lg font-bold text-slate-800 group-hover:text-${school.color}-700 transition-colors mb-1">
+                                    ${course.title}
+                                </h4>
+                                <p class="text-sm text-slate-500 line-clamp-2">${course.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // Atualiza progresso global no header
+        function updateGlobalProgress() {
+            const totalCourses = schoolsData.reduce((acc, school) => acc + school.courses.length, 0);
+            const totalCompleted = state.completedCourses.length;
+            const percentage = Math.round((totalCompleted / totalCourses) * 100);
+            
+            document.getElementById('globalProgressText').textContent = `${percentage}% Concluído`;
+            
+            // Atualiza circulo SVG
+            const circle = document.getElementById('globalCircle');
+            const circumference = 2 * Math.PI * 16; // r=16
+            const offset = circumference - (percentage / 100) * circumference;
+            
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        // --- 5. AÇÕES ---
+
+        window.switchSchool = (id) => {
+            state.activeSchoolId = id;
+            renderTabs();
+            renderActiveSchool();
+        };
+
+        window.openModal = (courseId) => {
+            const school = schoolsData.find(s => s.id === state.activeSchoolId);
+            const course = school.courses.find(c => c.id === courseId);
+            
+            if(!course) return;
+
+            state.currentModalCourseId = courseId;
+            
+            // Popula Modal
+            document.getElementById('modalTitle').textContent = course.title;
+            document.getElementById('modalDescription').textContent = course.desc;
+            document.getElementById('modalTag').textContent = course.tags[0];
+            
+            // Icone dinâmico no modal
+            const modalIconContainer = document.getElementById('modalIconContainer');
+            modalIconContainer.className = `p-3 rounded-lg bg-${school.color}-100 text-${school.color}-600`;
+            modalIconContainer.innerHTML = `<i data-lucide="${school.icon}" class="w-6 h-6"></i>`;
+
+            // Conteúdo fictício de aprendizado
+            const detailsList = document.getElementById('modalDetails');
+            detailsList.innerHTML = `
+                <li>Entendimento aprofundado sobre ${course.title}</li>
+                <li>Aplicação prática dos conceitos de ${course.tags[0]}</li>
+                <li>Avaliação de conhecimento ao final do módulo</li>
+            `;
+
+            // Estado do botão
+            updateModalButtonState();
+
+            // Mostra
+            modalEl.classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        window.closeModal = () => {
+            modalEl.classList.add('hidden');
+            state.currentModalCourseId = null;
+        };
+
+        window.toggleComplete = () => {
+            const id = state.currentModalCourseId;
+            if(!id) return;
+
+            const index = state.completedCourses.indexOf(id);
+            if (index > -1) {
+                // Remove
+                state.completedCourses.splice(index, 1);
+            } else {
+                // Adiciona
+                state.completedCourses.push(id);
+                showToast();
+                closeModal(); // Fecha ao concluir para dar dinamismo
+            }
+
+            // Salva e Re-renderiza
+            localStorage.setItem('stu_completed_courses', JSON.stringify(state.completedCourses));
+            updateModalButtonState();
+            renderActiveSchool();
+            updateGlobalProgress();
+        };
+
+        function updateModalButtonState() {
+            const btn = document.getElementById('btnMarkComplete');
+            const isCompleted = state.completedCourses.includes(state.currentModalCourseId);
+            const school = schoolsData.find(s => s.id === state.activeSchoolId);
+
+            if(isCompleted) {
+                btn.textContent = "Desmarcar Conclusão";
+                btn.className = "inline-flex w-full justify-center rounded-md bg-white border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 sm:ml-3 sm:w-auto transition-colors";
+            } else {
+                btn.textContent = "Marcar como Concluído";
+                btn.className = `inline-flex w-full justify-center rounded-md bg-${school.color}-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-${school.color}-500 sm:ml-3 sm:w-auto transition-colors`;
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Start
+        init();
+
+    </script>
+</body>
+</html>
