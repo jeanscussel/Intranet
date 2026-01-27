@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Boas Práticas: IA na CrediSeara</title>
+    
+    <!-- Biblioteca para gerar Imagem (html2canvas) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Fontes Estilo Infográfico -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Roboto+Condensed:wght@400;700&family=Open+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Paleta Vibrante Infográfico */
+            --green-dark: #005a30;
+            --green-mid: #2e8540;
+            --green-pop: #4CAF50;
+            --green-bg: #e8f5e9;
+            
+            --orange-main: #ed8b30;
+            --orange-dark: #d6761f;
+            
+            --white: #ffffff;
+            --dark: #1a1a1a;
+            --gray-light: #f4f4f4;
+
+            /* Sombras "Pop" */
+            --shadow-hard: 4px 4px 0px rgba(0,0,0,0.1);
+            --shadow-soft: 0 10px 25px -5px rgba(0,0,0,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #e0e0e0;
+            color: var(--dark);
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact; /* Força impressão de cores */
+            print-color-adjust: exact;
+        }
+
+        /* Container Central */
+        .infographic-strip {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative; /* Necessário para o html2canvas capturar corretamente */
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        p { margin-bottom: 15px; }
+
+        /* Container dos Botões Flutuantes */
+        .actions-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        /* Estilo dos Botões */
+        .action-btn {
+            background-color: var(--orange-main);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, background-color 0.2s;
+            width: 220px; /* Largura fixa para ficarem alinhados */
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+            background-color: var(--orange-dark);
+        }
+
+        .btn-pdf { background-color: var(--dark); } /* Diferenciar cor do PDF */
+
+        /* Ajustes Específicos para Impressão (PDF) */
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+            }
+            .infographic-strip {
+                box-shadow: none;
+                max-width: 100%;
+                margin: 0;
+            }
+            .actions-container {
+                display: none; /* Esconde os botões no PDF */
+            }
+            /* Garante que quebras de página não cortem elementos ao meio */
+            .case-row, .cota-step, .checklist-item, .benefit-card {
+                break-inside: avoid;
+            }
+        }
+
+        /* --- SEÇÃO 1: HEADER --- */
+        .header-section {
+            background-color: var(--green-dark);
+            color: var(--white);
+            padding: 80px 40px 60px;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+
+        .header-icon {
+            font-size: 5rem;
+            color: var(--orange-main);
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header-subtitle {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.5rem;
+            background-color: var(--orange-main);
+            color: var(--white);
+            display: inline-block;
+            padding: 5px 20px;
+            transform: rotate(-2deg);
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        /* --- SEÇÃO 2: DEFINIÇÃO --- */
+        .intro-section {
+            padding: 60px 50px;
+            text-align: center;
+        }
+
+        .big-question {
+            font-size: 2.5rem;
+            color: var(--green-mid);
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--orange-main);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .definition-box {
+            background-color: var(--green-bg);
+            border-left: 8px solid var(--green-mid);
+            padding: 30px;
+            text-align: left;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        /* --- SEÇÃO 3: BENEFÍCIOS (CHECKLIST) --- */
+        .benefits-section {
+            background-color: var(--green-mid);
+            color: var(--white);
+            padding: 40px 50px;
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+            margin: -30px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 30px;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Roboto Condensed', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .checklist-item i {
+            color: var(--orange-main);
+            margin-right: 12px;
+            font-size: 1.3rem;
+            background: white;
+            border-radius: 2px;
+            padding: 0px;
+        }
+
+        /* --- SEÇÃO 4: CASOS DE USO --- */
+        .use-cases-section {
+            padding: 80px 40px 60px;
+            background-color: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-header h2 {
+            font-size: 3rem;
+            color: var(--dark);
+        }
+
+        .cases-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .case-row {
+            display: flex;
+            align-items: center;
+            background: var(--gray-light);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 10px solid var(--orange-main);
+        }
+
+        .case-icon {
+            font-size: 1.8rem;
+            color: var(--green-mid);
+            margin-right: 20px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .case-text h4 {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.2rem;
+            color: var(--green-dark);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .case-text p {
+            font-size: 0.9rem;
+            margin: 0;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* --- SEÇÃO 5: RISCOS --- */
+        .risks-section {
+            background: repeating-linear-gradient(
+                45deg,
+                #222,
+                #222 10px,
+                #333 10px,
+                #333 20px
+            );
+            color: var(--white);
+            padding: 60px 40px;
+            text-align: center;
+            border-top: 5px solid var(--orange-main);
+            border-bottom: 5px solid var(--orange-main);
+        }
+
+        .risk-container {
+            background-color: var(--white);
+            color: var(--dark);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 10px 10px 0 var(--orange-main);
+            text-align: left;
+        }
+
+        .warning-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .warning-sign {
+            background: #ffcc00;
+            color: #000;
+            font-weight: bold;
+            display: inline-block;
+            padding: 5px 15px;
+            text-transform: uppercase;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .hallucination-box {
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        /* --- SEÇÃO 6: MÉTODO COTA --- */
+        .cota-section {
+            padding: 60px 40px;
+            background-color: var(--green-bg);
+            text-align: center;
+        }
+
+        .cota-section h2 {
+            margin-bottom: 40px;
+        }
+
+        .cota-intro {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+        }
+
+        .cota-visual {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .cota-step {
+            background: var(--white);
+            width: 160px;
+            padding: 20px;
+            border-bottom: 5px solid var(--green-mid);
+            position: relative;
+        }
+
+        .cota-step::after {
+            content: '\f061';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--green-mid);
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .cota-step:last-child::after { content: none; }
+        .cota-step:last-child { border-bottom-color: var(--orange-main); background-color: #fff3e0; }
+
+        .big-letter {
+            font-size: 4rem;
+            font-family: 'Oswald', sans-serif;
+            color: var(--green-dark);
+            display: block;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        /* --- SEÇÃO 7: COMPARATIVO --- */
+        .vs-section {
+            padding: 60px 40px;
+            background-color: var(--white);
+            text-align: center;
+        }
+
+        .vs-container {
+            display: flex;
+            gap: 0;
+            margin-top: 30px;
+            border: 2px solid var(--dark);
+        }
+
+        .vs-box {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .vs-bad {
+            background-color: #f5f5f5;
+            color: #777;
+            border-right: 2px solid var(--dark);
+        }
+
+        .vs-good {
+            background-color: var(--green-bg);
+            color: var(--green-dark);
+        }
+
+        .comparison-title {
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 15px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- FOOTER --- */
+        .footer-strip {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+            font-family: 'Roboto Condensed', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 768px) {
+            .header-title { font-size: 3rem; }
+            .checklist-grid { grid-template-columns: 1fr; }
+            .cota-visual { flex-direction: column; align-items: center; }
+            .cota-step { width: 100%; max-width: 300px; }
+            .cota-step::after { 
+                content: '\f063';
+                right: 50%; 
+                top: auto; 
+                bottom: -35px; 
+                transform: translateX(50%); 
+            }
+            .vs-container { flex-direction: column; }
+            .vs-bad { border-right: none; border-bottom: 2px solid var(--dark); }
+            .actions-container { bottom: 20px; right: 20px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Container de Botões Flutuantes -->
+    <div class="actions-container">
+        <button onclick="saveAsImage()" class="action-btn" title="Baixar como Imagem JPG">
+            <i class="fa-solid fa-image"></i> Baixar JPG
+        </button>
+        <button onclick="window.print()" class="action-btn btn-pdf" title="Salvar como PDF">
+            <i class="fa-solid fa-file-pdf"></i> Salvar PDF
+        </button>
+    </div>
+
+    <!-- Script para gerar Imagem -->
+    <script>
+        function saveAsImage() {
+            const element = document.querySelector('.infographic-strip');
+            
+            // Opções para melhorar a qualidade
+            const options = {
+                scale: 2, // Aumenta a resolução (2x)
+                useCORS: true, // Permite carregar imagens externas se houver
+                backgroundColor: null, // Mantém transparência se houver
+                logging: false
+            };
+
+            // Muda o cursor para indicar carregamento
+            document.body.style.cursor = 'wait';
+
+            html2canvas(element, options).then(canvas => {
+                // Cria um link temporário para download
+                const link = document.createElement('a');
+                link.download = 'guia-ia-cooperativa.jpg';
+                link.href = canvas.toDataURL('image/jpeg', 0.9); // Qualidade 0.9 (90%)
+                link.click();
+                
+                // Restaura o cursor
+                document.body.style.cursor = 'default';
+            }).catch(err => {
+                console.error("Erro ao gerar imagem:", err);
+                alert("Ocorreu um erro ao gerar a imagem. Tente usar a opção 'Salvar PDF'.");
+                document.body.style.cursor = 'default';
+            });
+        }
+    </script>
+
+    <div class="infographic-strip">
+        
+        <!-- HEADER -->
+        <div class="header-section">
+            <i class="fa-solid fa-robot header-icon"></i>
+            <h1 class="header-title">IA na CrediSeara</h1>
+            <div class="header-subtitle">Manual de Boas Práticas e Uso Responsável</div>
+        </div>
+
+        <!-- INTRO -->
+        <div class="intro-section">
+            <h2 class="big-question">O que é IA Generativa?</h2>
+            <div class="definition-box">
+                <p><strong>Não é mágica, é estatística aplicada.</strong></p>
+                <p>Imagine um assistente que leu <strong>todas</strong> as circulares do Banco Central, manuais internos e milhares de e-mails corporativos. A IA Generativa utiliza esse conhecimento para criar textos novos a partir dos seus comandos.</p>
+                <p style="margin-top: 20px; font-style: italic; color: var(--green-mid);">O objetivo não é substituir o atendimento humano, mas cuidar da burocracia para que você possa focar no cooperado.</p>
+            </div>
+        </div>
+
+        <!-- BENEFÍCIOS (CHECKLIST 8 ITENS) -->
+        <div class="benefits-section">
+            <h2 style="text-align: center; font-size: 2rem; margin-bottom: 10px;">Benefícios</h2>
+            <div class="checklist-grid">
+                <div class="checklist-item"><i class="fa-solid fa-square-check"></i> Resumo de documentos extensos</div>
+                <div class="checklist-item"><i class="fa-solid fa-square-check"></i> Redação de e-mails e comunicados</div>
+                <div class="checklist-item"><i class="fa-solid fa-square-check"></i> Simplificação de termos técnicos</div>
+                <div class="checklist-item"><i class="fa-solid fa-square-check"></i> Análise de sentimento em textos</div>
+                <div class="checklist-item"><i class="fa-solid fa-square-check"></i> Personalização da comunicação</div>
+                <div class="checklist-item"><i class="fa-solid fa-square-check"></i> Brainstorming e novas ideias</div>
+                <div class="checklist-item"><i class="fa-solid fa-square-check"></i> Revisão gramatical e de estilo</div>
+                <div class="checklist-item"><i class="fa-solid fa-square-check"></i> Criação de scripts de atendimento</div>
+            </div>
+        </div>
+
+        <!-- CASOS DE USO -->
+        <div class="use-cases-section">
+            <div class="section-header">
+                <h2>Aplicações Práticas</h2>
+                <div style="width: 100px; height: 5px; background: var(--orange-main); margin: 10px auto;"></div>
+                <p>Exemplos reais de como utilizar a ferramenta no dia a dia:</p>
+            </div>
+
+            <div class="cases-list">
+                <!-- Item 1 -->
+                <div class="case-row">
+                    <div class="case-icon"><i class="fa-solid fa-file-contract"></i></div>
+                    <div class="case-text">
+                        <h4>Resumo de Normativos</h4>
+                        <p>"Você recebe um e-mail da controladoria com uma normativa complexa do BACEN cheia de termos técnicos e precisa explicá-la de forma simples para sua equipe na reunião matinal."</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="case-row">
+                    <div class="case-icon"><i class="fa-regular fa-envelope"></i></div>
+                    <div class="case-text">
+                        <h4>Cobrança Humanizada</h4>
+                        <p>"Um cooperado antigo, que sempre pagou em dia, esqueceu uma parcela. Você precisa cobrar, mas quer manter um tom de parceria e amizade, sem usar a linguagem fria de cobrança."</p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="case-row">
+                    <div class="case-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                    <div class="case-text">
+                        <h4>Análise de Sentimento</h4>
+                        <p>"Você recebeu 50 comentários livres na pesquisa de satisfação da agência. Precisa identificar rapidamente quais são as 3 principais reclamações sem ter que ler uma por uma."</p>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="case-row">
+                    <div class="case-icon"><i class="fa-solid fa-table-list"></i></div>
+                    <div class="case-text">
+                        <h4>Comparativo de Investimentos</h4>
+                        <p>"Um cooperado está indeciso entre investir em RDC ou LCI. Você precisa gerar uma tabela visual instantânea comparando Liquidez e Imposto de Renda para ajudá-lo a decidir agora."</p>
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="case-row">
+                    <div class="case-icon"><i class="fa-solid fa-handshake"></i></div>
+                    <div class="case-text">
+                        <h4>Script de Vendas</h4>
+                        <p>"Você está finalizando a venda de um consórcio e quer oferecer um Seguro Prestamista. Precisa de um argumento rápido e natural para inserir na conversa sem parecer insistente."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 30px; color: var(--green-mid); font-size: 0.9rem;">Outros usos: Tradução de termos técnicos, elaboração de Atas, FAQ para WhatsApp e Defesa de Crédito.</p>
+        </div>
+
+        <!-- RISCOS (ALERTA) -->
+        <div class="risks-section">
+            <div class="risk-container">
+                <div class="warning-header">
+                    <div class="warning-sign"><i class="fa-solid fa-triangle-exclamation"></i> Atenção</div>
+                    <h3 style="color: #d32f2f; font-size: 1.8rem; margin: 0;">Segurança da Informação</h3>
+                </div>
+
+                <p style="font-weight: bold;">1. Proteção de Dados (LGPD)</p>
+                <p>IAs aprendem com o que você escreve. Dados sensíveis inseridos podem vazar para outros usuários.</p>
+                
+                <div style="background: #ffebee; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #b71c1c;">
+                    <strong style="color: #b71c1c; display: block; margin-bottom: 10px;">PROIBIDO INSERIR NO PROMPT:</strong>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li><i class="fa-solid fa-ban" style="color: #b71c1c; margin-right: 5px;"></i> CPFs, RGs ou CNPJs</li>
+                        <li><i class="fa-solid fa-ban" style="color: #b71c1c; margin-right: 5px;"></i> Saldos Bancários e Extratos</li>
+                        <li><i class="fa-solid fa-ban" style="color: #b71c1c; margin-right: 5px;"></i> Senhas, Tokens e Assinaturas</li>
+                        <li><i class="fa-solid fa-ban" style="color: #b71c1c; margin-right: 5px;"></i> Nomes completos de Cooperados</li>
+                    </ul>
+                </div>
+
+                <div class="hallucination-box">
+                    <h4 style="color: #1565c0; margin-bottom: 10px;"><i class="fa-solid fa-glasses"></i> Entendendo "Alucinações"</h4>
+                    <p style="font-size: 0.95rem;"><strong>A IA não sabe o que é verdade, ela sabe o que é provável.</strong></p>
+                    <p style="font-size: 0.9rem;">Modelos de linguagem funcionam prevendo a próxima palavra de uma frase. Às vezes, para completar uma frase com fluência, a IA pode inventar dados que parecem muito reais (como o número de uma Lei ou uma taxa histórica).</p>
+                    <p style="font-size: 0.9rem; margin-bottom: 0;"><strong>Exemplo:</strong> A IA pode dizer com convicção que "A Lei 99.999 isenta IOF", quando essa lei nem existe.<br><strong>Regra de Ouro:</strong> Nunca confie cegamente. Sempre verifique dados factuais na fonte original.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÉTODO COTA -->
+        <div class="cota-section">
+            <h2>Como Falar com a IA</h2>
+            <p class="cota-intro">A qualidade da resposta que você recebe depende 100% da qualidade do pedido que você faz. Utilizar métodos simples de estruturação melhora drasticamente o resultado final, evitando respostas genéricas. Recomendamos o método <strong>COTA</strong>:</p>
+            
+            <div class="cota-visual">
+                <div class="cota-step">
+                    <span class="big-letter">C</span>
+                    <h4>Contexto</h4>
+                    <p style="font-size: 0.8rem;">Dê um papel à IA.<br>"Você é um gerente experiente..."</p>
+                </div>
+                <div class="cota-step">
+                    <span class="big-letter">O</span>
+                    <h4>Objetivo</h4>
+                    <p style="font-size: 0.8rem;">Seja claro no pedido.<br>"Explicar a recusa de crédito..."</p>
+                </div>
+                <div class="cota-step">
+                    <span class="big-letter">T</span>
+                    <h4>Tom</h4>
+                    <p style="font-size: 0.8rem;">Defina o estilo.<br>"Seja empático, educado e formal..."</p>
+                </div>
+                <div class="cota-step">
+                    <span class="big-letter">A</span>
+                    <h4>Ação</h4>
+                    <p style="font-size: 0.8rem;">Formato da entrega.<br>"Crie um script curto para WhatsApp."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- VS SECTION -->
+        <div class="vs-section">
+            <h2 style="font-size: 2.5rem;">Comparativo de Resultados</h2>
+            <div class="vs-container">
+                <div class="vs-box vs-bad">
+                    <h3 class="comparison-title">Prompt Básico</h3>
+                    <p style="font-family: 'Courier New';">"Escreva uma recusa de crédito."</p>
+                    <p style="font-size: 0.8rem; margin-top: 20px; color: #d32f2f;"><strong>Resultado:</strong> Frio, robótico, genérico e possivelmente ofensivo ao cooperado.</p>
+                </div>
+                <div class="vs-box vs-good">
+                    <h3 class="comparison-title">Prompt COTA</h3>
+                    <p style="font-family: 'Courier New'; font-weight: bold;">"Aja como parceiro (C). Explique a restrição Serasa com empatia (T), oferecendo revisão em 3 meses (O) em formato de mensagem curta (A)."</p>
+                    <p style="font-size: 0.8rem; margin-top: 20px; color: var(--green-dark);"><strong>Resultado:</strong> Humano, acolhedor, profissional e focado na solução.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-strip">
+            <p style="margin: 0;">Cooperativa de Crédito © 2025 • Departamento de Inovação Interna</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
